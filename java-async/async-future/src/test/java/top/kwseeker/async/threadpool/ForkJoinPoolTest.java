@@ -2,10 +2,89 @@ package top.kwseeker.async.threadpool;
 
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.*;
 
 public class ForkJoinPoolTest {
+
+    //ForkJoinPool doJoin() 不易栈深度溢出的原理：
+    // 通过对象链表调用方法替代方法递归调用，同时结合多线程任务偷取，相当于把方法递归执行给平铺开了（每次偷取执行，栈的深度就又变成个位数了）
+    //Demo: 怎么获取执行过程中的方法栈最大深度？
+    //没找到怎么查看运行时方法栈最大深度，不过可以设置-Xss降低栈最大允许深度，对比对栈深度的损耗
+    //private static final ExecutorService executor = Executors.newFixedThreadPool(8);
+    private static final ExecutorService executor = Executors.newCachedThreadPool();
+    private static final Map<Object, Integer> methodDepthCounter = new HashMap<>();
+    @Test
+    public void testDoJoin() throws ExecutionException, InterruptedException {
+        SumTask task = new SumTask(1, 100);
+        Future<Integer> sum = executor.submit(task);
+        System.out.println(sum.get());
+        System.out.println(methodDepthCounter.size());  //创建了很多任务（126个），完全给平铺开了，很多任务会导致线程阻塞
+                                                        // 固定线程数的话会被堵死，永远执行不完
+                                                        // 对比ForkJoinPool也会先创建一批线程，但是由于有线程数上限，无法继续创建线程后，
+        System.out.println(methodDepthCounter);         //执行深度都是1
+    }
+    static class SumTask implements Callable<Integer> {
+        private final int low;
+        private final int high;
+
+        public SumTask(int low, int high) {
+            this.low = low;
+            this.high = high;
+        }
+
+        @Override
+        public Integer call() throws Exception {
+            methodDepthCounter.compute(this, (key, oldVal) -> oldVal == null ? 1 : oldVal + 1);
+
+            int dif = high - low;
+            if (dif > 1) {  //fork
+                int mid = low + dif / 2;
+                SumTask task1 = new SumTask(low, mid);
+                SumTask task2 = new SumTask(mid+1, high);
+                Future<Integer> f1 = executor.submit(task1);
+                Future<Integer> f2 = executor.submit(task2);
+                return f1.get() + f2.get();
+            } else {
+                return  (dif == 0) ? low : low + high;
+            }
+        }
+    }
+
+    @Test
+    public void testDoJoinByRecursive() {
+        int low = 1, high = 100;        //100个数栈深度大概是7
+        int sum = sumByRecursive(low, high);
+        System.out.println(sum);
+        System.out.println(methodDepthCounter.size()); //只有一个线程
+        System.out.println(methodDepthCounter);         //执行深度大概是7
+    }
+    private int sumByRecursive(int low, int high) {
+        int dif = high - low;
+        if (dif > 1) {
+            int mid = low + dif / 2;
+            return sumByRecursive(low, mid) + sumByRecursive( mid+1, high);
+        } else {
+            return  (dif == 0) ? low : low + high;
+        }
+    }
+
+    //private int doJoin() {
+    //    int s; Thread t; ForkJoinWorkerThread wt; ForkJoinPool.WorkQueue w;
+    //    return (s = status) < 0 ?
+    //                s
+    //                :
+    //                ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread) ?
+    //                        (w = (wt = (ForkJoinWorkerThread)t).workQueue).tryUnpush(this) && (s = doExec()) < 0 ?
+    //                                s
+    //                                :
+    //                                wt.pool.awaitJoin(w, this, 0L)
+    //                        :
+    //                        externalAwaitDone();
+    //}
 
     @Test
     public void testFirstSignalWorkCtl() {
