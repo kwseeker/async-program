@@ -8,6 +8,26 @@ import java.util.Set;
 public class ForkJoinPoolTest {
 
     @Test
+    public void testFirstSignalWorkCtl() {
+        int parallelism = 8;
+        long np = (long)(-parallelism); // offset ctl counts
+        long ctl = ((np << 48) & 0xffffL << 48) | ((np << 32) & 0xffffL << 32);
+        //long ctl = -1970359196712960L;
+        System.out.println(Integer.toBinaryString(-8));
+        System.out.println(ctl);
+        System.out.println(Long.toBinaryString(ctl));
+        // 1111111111111000 1111111111111000    高32位
+        // 0000000000000000 0000000000000000    低32位
+        int sp = (int) ctl;
+        System.out.println(sp);
+
+        long ADD_WORKER = 0x0001L << (32 + 15); // sign
+        System.out.println(Long.toBinaryString(ADD_WORKER));
+        boolean addWork = (ctl & ADD_WORKER) != 0L;
+        System.out.println("add work ? " + addWork);
+    }
+
+    @Test
     public void testFinally() {
         for (int i = 0; i < 10; i++) {
             if (i == 3) {

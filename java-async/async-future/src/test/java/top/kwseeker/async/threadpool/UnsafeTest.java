@@ -26,6 +26,28 @@ public class UnsafeTest {
         }
     }
 
+    /**
+     * 简单示范ForkJoinPool中往任务队列的数组中插入任务的操作
+     *
+     *  ABASE = markword(8) + 压缩指针(4) + 数组长度(4)
+     *  "(alen - 1) & s" 是防止 数组索引溢出
+     *  "<< ASHIFT" = "* 指针类型长度(4)"
+     */
+    @Test
+    public void testMockAddTask2WorkQueue() {
+        int alen = 8192;
+        int s = alen >>> 1;
+        int ASHIFT = 2, ABASE = 16;
+        int j = (((alen - 1) & s) << ASHIFT) + ABASE;   // 首次插入时的位置偏移量 16400
+        System.out.println(j);
+
+        String[] wqArr = new String[8];
+        int top = 4;
+        int offset = (((wqArr.length - 1) & top) << 2) + (8 + 4 + 4);
+        UNSAFE.putOrderedObject(wqArr, offset, "Hello");
+        System.out.println(wqArr[top]);
+    }
+
     // 1 ForkJoinPool中有大量”UNSAFE CAS 自旋“操作
     // 结果：
     //  nameCounter=12, ageCounter=16, addrCounter=20       //即 对象头（8bytes markword + 4bytes 压缩的类型指针）+ 实例数据（4byte name对象指针 + 4byte age对象指针 + 4 byte addr对象指针）
