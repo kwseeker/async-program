@@ -1,0 +1,709 @@
+<mxfile host="Electron" modified="2023-08-11T14:21:33.102Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="z7bxiS1b9Nm3YqAXT4hm" version="21.6.5" type="device">
+  <diagram name="第 1 页" id="0NwcDRs000kfrG-1apiR">
+    <mxGraphModel dx="3915" dy="879" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-1" value="&lt;p style=&quot;line-height: 1&quot;&gt;&lt;/p&gt;&lt;h1&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;Spring-WebFlux 工作原理&lt;/font&gt;&lt;font style=&quot;font-size: 16px&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(v5.2.1)&amp;nbsp;&lt;br style=&quot;font-size: 10px&quot;&gt;&lt;/font&gt;&lt;/h1&gt;&lt;div style=&quot;font-size: 10px&quot;&gt;属于spring-framework的一个模块。对比Spring MVC实现原理看，两者是实现还是类似的。这里基于 spring-boot-starter-webflux:2.2.1.RELEASE分析。&lt;/div&gt;&lt;p style=&quot;font-size: 10px&quot;&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;前提：&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 10px&quot;&gt;&lt;/p&gt;&lt;ul style=&quot;font-size: 10px&quot;&gt;&lt;li style=&quot;font-size: 10px&quot;&gt;SpringBoot 初始化流程（Web容器初始化原理）, 可以参考 spring-analysis中的流程图&lt;/li&gt;&lt;li style=&quot;font-size: 10px&quot;&gt;Netty工作原理、Netty应用开发（WebFlux默认使用Netty作为Web容器）&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;说明：&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;br&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;p style=&quot;font-size: 10px&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="10" y="20" width="710" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-4" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-5" target="QhXQWBFm0-bGqjXrz0u2-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-5" value="&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;通过SmartLifecycle拓展点启动的&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;font-size: 10px&quot;&gt;WebServerStartStopLifecycle&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;&lt;b&gt;关于&lt;/b&gt;&lt;span&gt;&lt;b&gt;Lifecycle接口参考spring-boot源码分析&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="430" y="2009" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-6" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-7" target="QhXQWBFm0-bGqjXrz0u2-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-7" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;this.weServerManager.start()&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="630" y="2019" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-8" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-9" target="QhXQWBFm0-bGqjXrz0u2-12" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-9" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;this.handler.initializeHandler()&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="830" y="2019" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-10" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-12" target="QhXQWBFm0-bGqjXrz0u2-13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-11" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=11;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-12" target="QhXQWBFm0-bGqjXrz0u2-28" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-12" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;this.webServer.start()&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="830" y="2079" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-13" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;this.applicationContext.publishEvent(new &lt;b&gt;ReactiveWebServerInitializedEvent&lt;/b&gt;(&lt;br&gt;this.webServer, this.applicationContext))&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="810" y="2150" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-15" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=11;fontColor=#007FFF;" parent="1" target="QhXQWBFm0-bGqjXrz0u2-25" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="310" y="1980" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-24" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=11;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-25" target="QhXQWBFm0-bGqjXrz0u2-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-25" value="finishRefresh() -&amp;gt;&lt;br&gt;getLifecycleProcessor()&lt;br&gt;.onRefresh()" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="2019" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-26" value="handle()" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-28" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1270.5" y="2099.0000000000005" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-27" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-28" target="QhXQWBFm0-bGqjXrz0u2-31" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-28" value="&lt;font style=&quot;font-size: 8px&quot;&gt;&lt;div&gt;if (this.routeProviders.isEmpty()) {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; server = server.&lt;b&gt;handle&lt;/b&gt;(this.handler);&lt;/div&gt;&lt;div&gt;} else {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; server = server.&lt;b&gt;route&lt;/b&gt;(this::applyRouteProviders);&lt;/div&gt;&lt;div&gt;}&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;即指定HttpServer处理请求的HttpHandler&lt;/font&gt;&lt;/div&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=left;arcSize=7;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="2070" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-29" value="&lt;font&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;childObserve(new HttpServerHandle(handler))&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 10px&quot; color=&quot;#007fff&quot;&gt;将ReactorHttpHandlerAdapter封装一下注册到 HttpServerConfig 观察者容器&lt;/font&gt;&lt;font color=&quot;#007fff&quot;&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;&amp;nbsp;ConnectionObserver&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;arcSize=14;" parent="1" vertex="1">
+          <mxGeometry x="1280.5" y="2079" width="239.5" height="60.5" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-30" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-31" target="QhXQWBFm0-bGqjXrz0u2-33" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-31" value="&lt;font&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&amp;nbsp;server.bindNow()&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;arcSize=14;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="1070" y="2150" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-32" value="NettyWebServer" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="1085" y="2050" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-33" value="&lt;font&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;bind().block(timeout)&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;arcSize=14;" parent="1" vertex="1">
+          <mxGeometry x="1270" y="2150" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-36" target="QhXQWBFm0-bGqjXrz0u2-40" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-36" value="spring-boot-starter-webflux" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="40" y="200" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-94" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-40" target="QhXQWBFm0-bGqjXrz0u2-93" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-252" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-40" target="QhXQWBFm0-bGqjXrz0u2-42" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-40" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;自动配置&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="240" y="200" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-99" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-42" target="QhXQWBFm0-bGqjXrz0u2-98" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-42" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;初始化流程&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#007fff&quot;&gt;需要了解SpringBoot初始化流程&lt;br&gt;这里只关注WebFlux初始化流程&lt;br&gt;&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="240" y="599" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-43" value="请求处理与响应" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="40" y="820" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-44" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-45" target="QhXQWBFm0-bGqjXrz0u2-47" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-45" value="HTTP请求处理流程" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="70" y="2205" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-46" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;curved=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-47" target="QhXQWBFm0-bGqjXrz0u2-49" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-47" value="&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;span&gt;请求进来先是通过Netty ChannelPipeline传递到&lt;/span&gt;&lt;br&gt;&lt;span&gt;&lt;b&gt;HttpTrafficHandler&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="2205" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-48" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;curved=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-49" target="QhXQWBFm0-bGqjXrz0u2-52" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-49" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;&lt;b&gt;channelRead&lt;/b&gt;(&lt;br&gt;ChannelHandlerContext ctx, &lt;br&gt;Object msg)&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="390" y="2205" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-50" value="&lt;font color=&quot;#007fff&quot;&gt;HttpTrafficHandler&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="420" y="2185" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-51" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;curved=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-52" target="QhXQWBFm0-bGqjXrz0u2-54" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-52" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;if (msg instanceof HttpRequest)&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="590" y="2205" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-53" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-54" target="QhXQWBFm0-bGqjXrz0u2-56" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-54" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;DecoderResult decoderResult = request.decoderResult();&lt;br&gt;&lt;/span&gt;&lt;font style=&quot;font-size: 10px&quot; color=&quot;#007fff&quot;&gt;解码结果，即是否解码成功&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="790" y="2205" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-55" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-56" target="QhXQWBFm0-bGqjXrz0u2-58" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-56" value="&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;span&gt;ops = new &lt;b&gt;HttpServerOperations&lt;/b&gt;(...);&lt;/span&gt;&lt;span&gt;&lt;br&gt;&lt;/span&gt;&lt;font color=&quot;#007fff&quot; style=&quot;font-size: 10px&quot;&gt;？？？&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="770" y="2265" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-57" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-58" target="QhXQWBFm0-bGqjXrz0u2-60" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-58" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;this.listener.&lt;b&gt;onStateChange&lt;/b&gt;(ops, State.CONFIGURED)&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="790" y="2385" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-59" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-60" target="QhXQWBFm0-bGqjXrz0u2-62" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1020" y="2465" />
+              <mxPoint x="1020" y="2465" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-60" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;ctx.fireChannelRead(msg)&lt;br&gt;&lt;/span&gt;&lt;font style=&quot;font-size: 10px&quot; color=&quot;#007fff&quot;&gt;继续传后面还有个ChannelOperationsHandler&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="790" y="2445" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-61" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-62" target="QhXQWBFm0-bGqjXrz0u2-65" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-62" value="&lt;font&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;b&gt;channelRead&lt;/b&gt;(&lt;br&gt;ChannelHandlerContext ctx, &lt;br&gt;Object msg)&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="2445" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-63" value="&lt;span&gt;ChannelOperationsHandler&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="1040" y="2425" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-64" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-65" target="QhXQWBFm0-bGqjXrz0u2-67" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-65" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;ChannelOperations&amp;lt;?, ?&amp;gt; ops = ChannelOperations.get(ctx.channel())&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1020" y="2505" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-66" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-67" target="QhXQWBFm0-bGqjXrz0u2-69" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-67" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;ops.onInboundNext(ctx, msg)&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="2565" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-68" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-69" target="QhXQWBFm0-bGqjXrz0u2-72" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-69" value="&lt;font style=&quot;font-size: 10px&quot;&gt;if (msg instanceof &lt;b&gt;HttpRequest&lt;/b&gt;):&lt;br&gt;this.listener().&lt;b&gt;onStateChange&lt;/b&gt;(this, HttpServerState.REQUEST_RECEIVED)&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;发布收到请求的事件&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1230" y="2555" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-70" value="HttpServerOperations" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="1275" y="2535" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-71" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-72" target="QhXQWBFm0-bGqjXrz0u2-74" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-72" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;this.&lt;b&gt;childObs&lt;/b&gt;.onStateChange(&lt;br&gt;connection, newState)&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1520" y="2260" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-73" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-74" target="QhXQWBFm0-bGqjXrz0u2-78" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-74" value="&lt;font style=&quot;font-size: 10px&quot;&gt;for (ConnectionObserver observer : &lt;b&gt;observers&lt;/b&gt;):&lt;br&gt;observer.onStateChange(connection, newState)&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;事件分发给所有观察者&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1720" y="2245" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-75" value="遗留问题：&lt;br&gt;1) ops 是什么? bind() 做了什么？&lt;br&gt;2) 请求进来是观察者模式处理的，这些观察者都是什么？" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="1070" y="1970" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-76" value="&lt;div&gt;此测试Demo中的两个 observer:&lt;br&gt;0 = {ServerTransportConfig$ServerTransportDoOnConnection@6804}&amp;nbsp;&lt;/div&gt;&lt;div&gt;1 = {&lt;b&gt;HttpServer$HttpServerHandle&lt;/b&gt;@5820}&amp;nbsp;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="1640" y="2315" width="330" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-77" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-78" target="QhXQWBFm0-bGqjXrz0u2-80" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-78" value="&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;span&gt;ServerTransportConfig&lt;br&gt;$ServerTransportDoOnConnection#&lt;br&gt;&lt;/span&gt;onStateChange()&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1960" y="2260" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-79" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-80" target="QhXQWBFm0-bGqjXrz0u2-82" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-80" value="&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;b&gt;HttpServer&lt;/b&gt;$&lt;b&gt;HttpServerHandle&lt;/b&gt;#&lt;br&gt;onStateChange(Connection connection, ConnectionObserver.State newState)&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="1960" y="2320" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-81" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-82" target="QhXQWBFm0-bGqjXrz0u2-85" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-82" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;HttpServerOperations ops = (HttpServerOperations)connection;&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2240" y="2320" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-83" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-85" target="QhXQWBFm0-bGqjXrz0u2-87" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-84" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-85" target="QhXQWBFm0-bGqjXrz0u2-92" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-85" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;Mono&amp;lt;Void&amp;gt; mono = Mono.fromDirect(&lt;br&gt;(Publisher)this.&lt;b&gt;handler&lt;/b&gt;.apply(ops, ops))&lt;br&gt;&lt;/span&gt;&lt;font style=&quot;font-size: 10px&quot; color=&quot;#007fff&quot;&gt;复制this.hanlder.apply()的发布器&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="2240" y="2380" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-86" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-87" target="QhXQWBFm0-bGqjXrz0u2-88" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-87" value="&lt;font style=&quot;font-size: 9px&quot;&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;mono.subscribe(ops.disposeSubscriber())&lt;br&gt;&lt;/span&gt;&lt;font style=&quot;font-size: 9px&quot; color=&quot;#007fff&quot;&gt;数据订阅，把Mono当作流，订阅之后&lt;br&gt;后面就是往流中写数据，处理，发布给订阅者&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="2240" y="2440" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-88" value="&lt;font style=&quot;font-size: 9px&quot;&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2480" y="2440" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-89" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;fontColor=#007FFF;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-90" target="QhXQWBFm0-bGqjXrz0u2-91" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-90" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;ops.bind()&lt;/span&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="790" y="2325" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-91" value="&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;div&gt;channel()&lt;br&gt;.attr(ReactorNetty.CONNECTION)&lt;/div&gt;&lt;div&gt;.set(this)&lt;/div&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="2325" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-92" value="&lt;font&gt;&lt;span style=&quot;font-size: 10px&quot;&gt;Mono&amp;lt;Void&amp;gt; mono = Mono.fromDirect(&lt;br&gt;(Publisher)this.&lt;b&gt;handler&lt;/b&gt;.apply(ops, ops))&lt;br&gt;&lt;/span&gt;&lt;font style=&quot;font-size: 10px&quot; color=&quot;#007fff&quot;&gt;复制this.hanlder.apply()的发布器&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="2480" y="2380" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-96" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-93" target="QhXQWBFm0-bGqjXrz0u2-95" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-240" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-93" target="QhXQWBFm0-bGqjXrz0u2-238" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-93" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;spring-boot-starter-&lt;br&gt;reactor-netty&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#007fff&quot;&gt;核心是这个starter,不过它本身并没有自动配置类，只是引入依赖&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="440" y="200" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-239" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-95" target="QhXQWBFm0-bGqjXrz0u2-238" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-245" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-95" target="QhXQWBFm0-bGqjXrz0u2-242" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-95" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;spring-boot-autoconfigure&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="640" y="200" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-101" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-98" target="QhXQWBFm0-bGqjXrz0u2-100" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-98" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;SpringApplication#run(...)&lt;br&gt;&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="439" y="599" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-103" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-100" target="QhXQWBFm0-bGqjXrz0u2-102" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-107" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-100" target="QhXQWBFm0-bGqjXrz0u2-106" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-100" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;new SpringApplication(primarySources))&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;选择Web类型&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="639" y="599" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-102" value="this.webApplicationType = WebApplicationType&lt;br&gt;.deduceFromClasspath();&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;通过尝试加载类判断Web应用类型，是REACTIVE还是SERVLET&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="839" y="599" width="201" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-110" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-106" target="QhXQWBFm0-bGqjXrz0u2-109" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-106" value="run(args)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="639" y="679" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-108" value="&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#007fff&quot;&gt;可以加载org.springframework.web.reactive.&lt;b&gt;DispatcherHandler &lt;/b&gt;(spring-webflux中定义的类，前面引入了此依赖，一定是会加载的)&lt;br&gt;且不可以加载org.springframework.web.servlet.DispatcherServlet （spring-mvc中定义的类，没有引入此依赖，一定不可以加载此类，下同）&lt;br&gt;和&amp;nbsp;org.glassfish.jersey.servlet.ServletContainer 说明是 REACTIVE 类型&lt;br&gt;&lt;b&gt;这里的逻辑同时也说明应用要么是REACTIVE要么是SERLVET, 如果同时引入spring-webflux 和 spring-mvc 那也只是SERVLET类型。&lt;/b&gt;&lt;br&gt;&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="1049" y="594" width="640" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-112" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-109" target="QhXQWBFm0-bGqjXrz0u2-111" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-115" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-109" target="QhXQWBFm0-bGqjXrz0u2-114" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-109" value="context = createApplicationContext();&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;实例化应用上下文&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="839" y="679" width="201" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-111" value="通过反射加载并实例化&lt;br&gt;&lt;b&gt;AnnotationConfigReactiveWebServerApplicationContext&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="1080.5" y="679" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-113" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;走到这里不妨先猜下接下来要初始化的内容（根据对MVC、Netty的了解，&lt;br&gt;个人认为主要包括下面3个流程）：&lt;br&gt;1. 创建Netty服务端（采用HTTP11/HTTP2编解码器）&lt;br&gt;2. 解析@Controller注解的Bean 或 实现了RouterFunction接口的Bean,&lt;br&gt;然后添加修饰的拦截器、序列化反序列化等工具组成责任链然后注册到&lt;br&gt;DispatcherHandler Map中&lt;br&gt;3. 注册使用reator-netty封装的DispatcherHandler 为 ChannelHander，&lt;br&gt;注册到Netty服务端的pipeline中。&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="289" y="679" width="350" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-117" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-114" target="QhXQWBFm0-bGqjXrz0u2-116" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-114" value="refreshContext(context);" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="839" y="779" width="201" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-120" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-116" target="QhXQWBFm0-bGqjXrz0u2-119" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-116" value="refresh()" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1081" y="779" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-118" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;AbstractApplicationContext&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="1090.5" y="750" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-223" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-119" target="QhXQWBFm0-bGqjXrz0u2-121" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-256" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-119" target="QhXQWBFm0-bGqjXrz0u2-215" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1360.5" y="1001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-119" value="onRefresh();" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1280.5" y="779" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-125" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-121" target="QhXQWBFm0-bGqjXrz0u2-124" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-121" value="super.onRefresh();&lt;br&gt;this.&lt;b&gt;createWebServer&lt;/b&gt;()" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="1479.5" y="779" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-123" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;ReactiveWebServerApplicationContext&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="1459.5" y="749" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-127" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-124" target="QhXQWBFm0-bGqjXrz0u2-126" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-124" value="ReactiveWebServerFactory webServerFactory = this.getWebServerFactory(webServerFactoryBeanName);&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;加载ReactiveWebServerFactory类型工厂Bean,默认只有&lt;br&gt;&lt;b&gt;NettyReactiveWebSeverFactory&lt;/b&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1679.5" y="779" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-133" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-126" target="QhXQWBFm0-bGqjXrz0u2-132" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-126" value="this.&lt;b&gt;serverManager&lt;/b&gt; = ReactiveWebServerApplicationContext&lt;br&gt;.ServerManager.get(webServerFactory, lazyInit);" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1679.5" y="859" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-128" value="&lt;div style=&quot;text-align: center; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;org.springframework.boot.web.server.&lt;/font&gt;&lt;b style=&quot;color: rgb(51, 0, 0); background-color: initial;&quot;&gt;AbstractConfigurableWebServerFactory&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 10px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private int &lt;b&gt;port&lt;/b&gt; = 8080;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private InetAddress &lt;b&gt;address&lt;/b&gt;;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private Set&amp;lt;ErrorPage&amp;gt; errorPages = new LinkedHashSet();&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private Ssl ssl;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private SslStoreProvider sslStoreProvider;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private Http2 &lt;b&gt;http2&lt;/b&gt;;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private Compression compression;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private String serverHeader;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-440" y="200" width="400" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-130" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=blockThin;endFill=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-129" target="QhXQWBFm0-bGqjXrz0u2-128" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-129" value="&lt;div style=&quot;text-align: center; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;org.springframework.boot.web.embedded.netty.&lt;/font&gt;&lt;span style=&quot;color: rgb(51, 0, 0); background-color: initial;&quot;&gt;&lt;b&gt;NettyReactiveWebServerFactory&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 10px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;创建基于Netty的响应式 WebServer 工厂&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private Set&amp;lt;NettyServerCustomizer&amp;gt; &lt;b&gt;serverCustomizers&lt;/b&gt; = new LinkedHashSet();&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private List&amp;lt;NettyRouteProvider&amp;gt; &lt;b&gt;routeProviders&lt;/b&gt; = new ArrayList();&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private Duration &lt;b&gt;lifecycleTimeout&lt;/b&gt;;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private boolean useForwardHeaders;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private ReactorResourceFactory resourceFactory;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-440" y="400" width="400" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-131" value="&lt;div style=&quot;text-align: center; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;org.springframework.boot.web.reactive.context.&lt;/font&gt;&lt;font style=&quot;background-color: initial; font-size: 11px;&quot; color=&quot;#330000&quot;&gt;ReactiveWebServerApplicationContext.&lt;/font&gt;&lt;b style=&quot;background-color: initial; color: rgb(51, 0, 0);&quot;&gt;ServerManager&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;响应式WebServer实例的&lt;/font&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;缓存容器,&amp;nbsp;class ServerManager implements HttpHandler&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;是&amp;nbsp;&lt;b&gt;ReactiveWebServerApplicationContext&amp;nbsp;&lt;/b&gt;的成员变量&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private final WebServer &lt;b&gt;server&lt;/b&gt;;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private final boolean lazyInit;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#330000&quot;&gt;private volatile HttpHandler &lt;b&gt;handler&lt;/b&gt; = this::handleUninitialized;&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-1000" y="200" width="520" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-135" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-132" target="QhXQWBFm0-bGqjXrz0u2-134" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-132" value="new ServerManager(factory, lazyInit);" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1999.5" y="859" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-139" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-134" target="QhXQWBFm0-bGqjXrz0u2-138" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-134" value="this.server = factory.&lt;b&gt;getWebServer&lt;/b&gt;(this);" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="2199.5" y="859" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-141" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-138" target="QhXQWBFm0-bGqjXrz0u2-140" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-148" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-138" target="QhXQWBFm0-bGqjXrz0u2-147" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-138" value="&lt;div&gt;HttpServer httpServer = this.createHttpServer();&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#007fff&quot;&gt;创建Netty服务端并设置默认配置&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="2399.5" y="859" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-143" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-140" target="QhXQWBFm0-bGqjXrz0u2-142" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-140" value="&lt;div&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;ReactorHttpHandlerAdapter handlerAdapter = new ReactorHttpHandlerAdapter(httpHandler);&lt;/font&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#007fff&quot; style=&quot;font-size: 9px;&quot;&gt;这里只是个空壳，后面&lt;/font&gt;&lt;/div&gt;&lt;font size=&quot;1&quot; color=&quot;#007fff&quot;&gt;finishRefresh()中&lt;/font&gt;&lt;span style=&quot;font-size: 9px; color: rgb(0, 127, 255); background-color: initial;&quot;&gt;才初始化&lt;/span&gt;&lt;font size=&quot;1&quot; color=&quot;#007fff&quot;&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="2399.5" y="979" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-213" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-142" target="QhXQWBFm0-bGqjXrz0u2-144" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-142" value="&lt;div&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;NettyWebServer webServer = this.&lt;b&gt;createNettyWebServer&lt;/b&gt;(&lt;b&gt;httpServer&lt;/b&gt;, &lt;b&gt;handlerAdapter&lt;/b&gt;, this.lifecycleTimeout, this.getShutdown());&lt;/font&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e3c800;strokeColor=#B09500;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="2399.5" y="1059" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-144" value="&lt;div&gt;webServer.setRouteProviders(&lt;br&gt;this.routeProviders);&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#007fff&quot;&gt;这个routeProviders也是个空壳&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="2399.5" y="1139" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-153" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-147" target="QhXQWBFm0-bGqjXrz0u2-152" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-173" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-147" target="QhXQWBFm0-bGqjXrz0u2-172" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-147" value="HttpServer &lt;b&gt;server&lt;/b&gt; = HttpServer.create();&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;&lt;b&gt;HttpServerBind&lt;/b&gt; 单例对象，默认本质是Netty服务端&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="2639.5" y="859" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-149" value="&lt;div style=&quot;text-align: center; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;reactor.netty.http.server&lt;font style=&quot;background-color: initial; font-size: 11px;&quot;&gt;.&lt;/font&gt;&lt;/font&gt;&lt;b style=&quot;color: rgb(0, 0, 0); background-color: initial;&quot;&gt;HttpServer&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;static final TcpServer &lt;b&gt;DEFAULT_TCP_SERVER&lt;/b&gt; = TcpServer.create();&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); background-color: initial;&quot;&gt;static final Function&amp;lt;TcpServer, TcpServer&amp;gt; &lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); background-color: initial;&quot;&gt;COMPRESS_ATTR_CONFIG&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); background-color: initial;&quot;&gt; = (tcp) -&amp;gt; {&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&amp;nbsp; &amp;nbsp; return tcp.bootstrap(HttpServerConfiguration.MAP_COMPRESS);&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;};&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;static final Function&amp;lt;TcpServer, TcpServer&amp;gt; &lt;b&gt;COMPRESS_ATTR_DISABLE&lt;/b&gt; = (tcp) -&amp;gt; {&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&amp;nbsp; &amp;nbsp; return tcp.bootstrap(HttpServerConfiguration.MAP_NO_COMPRESS);&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;};&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;static final Function&amp;lt;TcpServer, TcpServer&amp;gt; &lt;b&gt;FORWARD_ATTR_CONFIG&lt;/b&gt; = (tcp) -&amp;gt; {&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&amp;nbsp; &amp;nbsp; return tcp.bootstrap(HttpServerConfiguration.MAP_FORWARDED);&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;};&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;static final Function&amp;lt;TcpServer, TcpServer&amp;gt; &lt;b&gt;FORWARD_ATTR_DISABLE&lt;/b&gt; = (tcp) -&amp;gt; {&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&amp;nbsp; &amp;nbsp; return tcp.bootstrap(HttpServerConfiguration.MAP_NO_FORWARDED);&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;};&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-960" y="560" width="480" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-151" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-150" target="QhXQWBFm0-bGqjXrz0u2-149" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-150" value="&lt;div style=&quot;text-align: center; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;reactor.netty.http.server&lt;font style=&quot;background-color: initial; font-size: 11px;&quot;&gt;.&lt;/font&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;HttpServerBind&lt;/font&gt;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;基于 Netty 响应式 WebServer 的默认实现，本质就是 TcpServerBind.INSTANCE&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;static final HttpServerBind &lt;b&gt;INSTANCE&lt;/b&gt; = new HttpServerBind();&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;static final Function&amp;lt;DisposableServer, DisposableServer&amp;gt; &lt;b&gt;CLEANUP_GLOBAL_RESOURCE&lt;/b&gt; =&amp;nbsp;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;DisposableBind::new;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;final TcpServer &lt;b&gt;tcpServer&lt;/b&gt;;&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-960" y="854" width="480" height="106" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-159" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-152" target="QhXQWBFm0-bGqjXrz0u2-158" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-152" value="TcpServer &lt;b&gt;DEFAULT_TCP_SERVER&lt;/b&gt; = TcpServer.create();&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;TcpServerBind 单例对象&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="2879.5" y="859" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-157" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-154" target="QhXQWBFm0-bGqjXrz0u2-150" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-154" value="&lt;div style=&quot;text-align: center; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;reactor.netty.tcp.&lt;/font&gt;&lt;span style=&quot;color: rgb(0, 0, 0); background-color: initial;&quot;&gt;&lt;b&gt;TcpServer&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;static final int &lt;b&gt;DEFAULT_PORT&lt;/b&gt; = 0;&lt;/font&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-1400" y="740" width="400" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-155" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-156" target="QhXQWBFm0-bGqjXrz0u2-154" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-156" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;reactor.netty.tcp.&lt;b&gt;Tcp&lt;/b&gt;&lt;/font&gt;&lt;b style=&quot;font-size: 11px; color: rgb(0, 0, 0); background-color: initial;&quot;&gt;ServerBind&lt;/b&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;基于 Netty 响应式 WebServer 的默认实现，本质就是 TcpServerBind.INSTANCE&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;static final TcpServerBind &lt;b&gt;INSTANCE&lt;/b&gt; = new TcpServerBind();&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;final ServerBootstrap &lt;b&gt;serverBootstrap&lt;/b&gt; = this.createServerBootstrap();&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-1400" y="854" width="400" height="106" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-158" value="&lt;div&gt;return (ServerBootstrap)((ServerBootstrap)(new &lt;b&gt;ServerBootstrap&lt;/b&gt;())&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; .option(ChannelOption.SO_REUSEADDR, true))&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; .childOption(ChannelOption.AUTO_READ, false)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; .childOption(ChannelOption.TCP_NODELAY, true)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; .localAddress(new InetSocketAddress(0));&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#007fff&quot;&gt;创建Netty服务端&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=left;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="3119.5" y="844" width="320" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-163" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-160" target="QhXQWBFm0-bGqjXrz0u2-162" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-165" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-160" target="QhXQWBFm0-bGqjXrz0u2-164" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-160" value="&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;server = server.tcpConfiguration((tcpServer) -&amp;gt; {&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;&amp;nbsp; &amp;nbsp; return tcpServer.runOn(resources)&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;.addressSupplier(this::getListenAddress);&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;});&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=left;" parent="1" vertex="1">
+          <mxGeometry x="2879.5" y="979" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-162" value="&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;1&quot;&gt;b.group(selectorGroup, elg)&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;1&quot;&gt;.&lt;b&gt;channel&lt;/b&gt;(resources.onServerChannel(elg));&lt;br&gt;&lt;/font&gt;&lt;font color=&quot;#007fff&quot;&gt;注册ChannelHandler&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=left;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="3119.5" y="979" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-167" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-164" target="QhXQWBFm0-bGqjXrz0u2-166" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-164" value="&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;div&gt;server = server.tcpConfiguration((tcpServer) -&amp;gt; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; return tcpServer.runOn(resources)&lt;br&gt;.addressSupplier(this::getListenAddress);&lt;/div&gt;&lt;div&gt;});&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=left;" parent="1" vertex="1">
+          <mxGeometry x="2879.5" y="1059" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-166" value="&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;(ServerBootstrap)b.&lt;b&gt;localAddress&lt;/b&gt;(&lt;br&gt;(SocketAddress)bindingAddressSupplier.get());&lt;/font&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;绑定端口地址&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=left;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="3119.5" y="1059" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-171" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-168" target="QhXQWBFm0-bGqjXrz0u2-170" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-184" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-168" target="QhXQWBFm0-bGqjXrz0u2-183" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-168" value="&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;1&quot;&gt;server = server.&lt;b&gt;protocol&lt;/b&gt;(this.listProtocols())&lt;br&gt;.&lt;b&gt;forwarded&lt;/b&gt;(this.useForwardHeaders);&lt;/font&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font color=&quot;#007fff&quot; size=&quot;1&quot;&gt;设置用于选择通信协议的初始化函数，如果有启用HTTP2就使用HTTP2协议否则用HTTP11&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="2639.5" y="1219" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-182" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-170" target="QhXQWBFm0-bGqjXrz0u2-181" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-170" value="&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;1&quot;&gt;return this.&lt;b&gt;applyCustomizers&lt;/b&gt;(server);&lt;/font&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font color=&quot;#007fff&quot; size=&quot;1&quot;&gt;默认只有一个解码器的配置&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="2639.5" y="1379" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-174" value="Y" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-172" target="QhXQWBFm0-bGqjXrz0u2-160" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-176" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-172" target="QhXQWBFm0-bGqjXrz0u2-164" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-179" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-172" target="QhXQWBFm0-bGqjXrz0u2-178" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-172" value="this.resourceFactory &lt;br&gt;!= null" style="rhombus;whiteSpace=wrap;html=1;fontSize=10;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="2679.5" y="1019" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-180" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-178" target="QhXQWBFm0-bGqjXrz0u2-168" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-178" value="&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;1&quot;&gt;SSL、数据压缩等&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font color=&quot;#007fff&quot; size=&quot;1&quot;&gt;默认没启用略&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="2639.5" y="1139" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-207" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-181" target="QhXQWBFm0-bGqjXrz0u2-206" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-181" value="&lt;div style=&quot;&quot;&gt;for&amp;nbsp;this.serverCustomizers:&lt;/div&gt;&lt;div style=&quot;&quot;&gt;server = customizer.&lt;b&gt;apply&lt;/b&gt;(server);&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="2879.5" y="1379" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-203" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-183" target="QhXQWBFm0-bGqjXrz0u2-202" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-183" value="&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;div&gt;&lt;div&gt;return this.tcpConfiguration((tcpServer) -&amp;gt; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; return tcpServer.&lt;b&gt;bootstrap&lt;/b&gt;((b) -&amp;gt; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; return HttpServerConfiguration&lt;/div&gt;&lt;div&gt;.protocols(b, supportedProtocols);&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; });&lt;/div&gt;&lt;div&gt;});&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=left;" parent="1" vertex="1">
+          <mxGeometry x="2879.5" y="1219" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-186" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=none;endArrow=block;endFill=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-185" target="QhXQWBFm0-bGqjXrz0u2-154" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-187" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-185" target="QhXQWBFm0-bGqjXrz0u2-154" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-185" value="&lt;div style=&quot;text-align: center; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;reactor.netty.tcp.&lt;/font&gt;&lt;/font&gt;&lt;span style=&quot;color: rgb(0, 0, 0); background-color: initial;&quot;&gt;TcpServerOperator&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;final TcpServer source;&lt;/font&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-1780" y="854" width="320" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-189" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-188" target="QhXQWBFm0-bGqjXrz0u2-185" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-188" value="&lt;div style=&quot;text-align: center; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;reactor.netty.tcp.&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;b style=&quot;color: rgb(0, 0, 0);&quot;&gt;TcpServerBootstrap &lt;/b&gt;（这里其实是&lt;b&gt;装饰器模式&lt;/b&gt;）&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;final Function&amp;lt;? super ServerBootstrap, ? extends ServerBootstrap&amp;gt; bootstrapMapper;&lt;/font&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-1840" y="1001" width="440" height="79" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-191" value="&lt;font color=&quot;#007fff&quot; style=&quot;font-size: 10px;&quot;&gt;后面的逻辑是使用&lt;b&gt;装饰器模式&lt;/b&gt;，&lt;br&gt;为HttpServer附加一些初始化方法，&lt;br&gt;在服务器启动时调用实现Netty服务器初始化&lt;br&gt;&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="2639.5" y="919" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-195" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endArrow=block;endFill=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-192" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-720.0000000000005" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-192" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;reactor.netty.http.server.&lt;/font&gt;&lt;span style=&quot;color: rgb(0, 0, 0); background-color: initial;&quot;&gt;&lt;b&gt;HttpServerOperator&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;final HttpServer&amp;nbsp;source;&lt;/font&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-420" y="854" width="320" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-193" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-194" target="QhXQWBFm0-bGqjXrz0u2-192" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-194" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;reactor.netty.http.server&lt;/font&gt;&lt;font style=&quot;background-color: initial; font-size: 11px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;.&lt;/font&gt;&lt;/font&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;b&gt;HttpServerTcpConfig&lt;/b&gt;&lt;/font&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 11px;&quot;&gt;&amp;nbsp;&lt;/b&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;（这里其实是&lt;/span&gt;&lt;b style=&quot;font-size: 11px;&quot;&gt;装饰器模式&lt;/b&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;）&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;final Function&amp;lt;? super ServerBootstrap, ? extends ServerBootstrap&amp;gt; bootstrapMapper;&lt;/font&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-480" y="1001" width="440" height="79" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-205" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-202" target="QhXQWBFm0-bGqjXrz0u2-204" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-202" value="&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;return forwardedEnabled ? this.tcpConfiguration(FORWARD_ATTR_CONFIG) : this.tcpConfiguration(FORWARD_ATTR_DISABLE);&lt;/font&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=left;" parent="1" vertex="1">
+          <mxGeometry x="2879.5" y="1299" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-204" value="&lt;div style=&quot;font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;b.&lt;b&gt;attr&lt;/b&gt;(CONF_KEY, hcc);&lt;/font&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="3119.5" y="1299" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-210" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-206" target="QhXQWBFm0-bGqjXrz0u2-209" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-206" value="&lt;div style=&quot;&quot;&gt;NettyWebServerFactoryCustomizer#&lt;br&gt;apply()&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="3119.5" y="1379" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-209" value="&lt;div style=&quot;&quot;&gt;tcp -&amp;gt; tcp.bootstrap(b -&amp;gt; HttpServerConfiguration.decoder(b, decoder))&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="3359.5" y="1379" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-211" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;HttpRequestDecoderSpec&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="3389.5" y="1349" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-212" value="&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&lt;b&gt;httpServer&lt;/b&gt; = {HttpServerTcpConfig@5566}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp;&lt;b&gt;tcpServerMapper&lt;/b&gt; = {HttpRequestDecoderSpec$lambda@5567}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; arg$1 = {HttpRequestDecoderSpec@5568}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp;maxInitialLineLength = 4096&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp;maxHeaderSize = 8192&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp;maxChunkSize = 8192&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp;validateHeaders = true&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp;initialBufferSize = 128&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp;&lt;b&gt;source&lt;/b&gt; = {HttpServerTcpConfig@5545}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &lt;b&gt;tcpServerMapper&lt;/b&gt; = {HttpServer$lambda@5543}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &lt;b&gt;source&lt;/b&gt; = {HttpServerTcpConfig@5541}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp;&lt;b&gt;tcpServerMapper&lt;/b&gt; = {HttpServer$lambda@5544}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp; arg$1 = {HttpProtocol[1]@5536}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;0 = {HttpProtocol@5538} &quot;HTTP11&quot;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp;&lt;b&gt;source&lt;/b&gt; = {HttpServerTcpConfig@5535}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;b&gt;tcpServerMapper&lt;/b&gt; = {NettyReactiveWebServerFactory$lambda@5537}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp; &lt;b&gt;source&lt;/b&gt; = {HttpServerBind@4821}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;b&gt;tcpServer&lt;/b&gt; = {TcpServerBind@5522}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;b&gt;serverBootstrap&lt;/b&gt; = {ServerBootstrap@5569}&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;childOptions = {ConcurrentHashMap@5572}&amp;nbsp; size = 2&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;childAttrs = {ConcurrentHashMap@5573}&amp;nbsp; size = 0&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#007fff&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;config = {ServerBootstrapConfig@5574}&amp;nbsp;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="-1800" y="520" width="390" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-214" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;org.springframework.boot.web.embedded.netty.&lt;/font&gt;&lt;span style=&quot;color: rgb(0, 0, 0); background-color: initial;&quot;&gt;&lt;b&gt;NettyWebServer&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;private static final Predicate&amp;lt;HttpServerRequest&amp;gt; ALWAYS = (r) -&amp;gt; true;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;private final &lt;b&gt;HttpServer&lt;/b&gt; &lt;b&gt;httpServer&lt;/b&gt;;&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;private final ReactorHttpHandlerAdapter &lt;b&gt;handlerAdapter&lt;/b&gt;;&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;private final Duration &lt;b&gt;lifecycleTimeout&lt;/b&gt;;&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;private List&amp;lt;NettyRouteProvider&amp;gt; &lt;b&gt;routeProviders&lt;/b&gt; = Collections.emptyList();&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;private DisposableServer &lt;b&gt;disposableServer&lt;/b&gt;;&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" parent="1" vertex="1">
+          <mxGeometry x="-480" y="1120" width="440" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-218" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-215" target="QhXQWBFm0-bGqjXrz0u2-217" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-215" value="finishRefresh();" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1280.5" y="1399" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-220" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-217" target="QhXQWBFm0-bGqjXrz0u2-219" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-217" value="super.finishRefresh();" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1480.5" y="1399" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-222" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-219" target="QhXQWBFm0-bGqjXrz0u2-221" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-226" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-219" target="QhXQWBFm0-bGqjXrz0u2-225" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-219" value="WebServer webServer = startReactiveWebServer();" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="1480.5" y="1479" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-221" value="publishEvent(new ReactiveWebServerInitializedEvent(&lt;br&gt;webServer, this));" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1480.5" y="1639" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-229" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-225" target="QhXQWBFm0-bGqjXrz0u2-228" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-225" value="ServerManager serverManager = this.serverManager;&lt;br&gt;ServerManager.&lt;b&gt;start&lt;/b&gt;(&lt;b&gt;serverManager&lt;/b&gt;, this::getHttpHandler);" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1679.5" y="1479" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-227" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;ReactiveWebServerApplicationContext&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="1459.5" y="1369" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-231" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-228" target="QhXQWBFm0-bGqjXrz0u2-230" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-228" value="ServerManager serverManager = this.serverManager;&lt;br&gt;ServerManager.&lt;b&gt;start&lt;/b&gt;(serverManager, this::getHttpHandler);" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1919.5" y="1479" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-233" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-230" target="QhXQWBFm0-bGqjXrz0u2-232" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-235" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-230" target="QhXQWBFm0-bGqjXrz0u2-234" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-230" value="&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;manager.&lt;b&gt;handler&lt;/b&gt; = manager.lazyInit ?&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;new LazyHttpHandler(&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;Mono.fromSupplier(handlerSupplier))&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;: &lt;b&gt;handlerSupplier&lt;/b&gt;.get();&lt;/font&gt;&lt;span style=&quot;&quot;&gt;&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="2159.5" y="1479" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-232" value="&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;1&quot;&gt;manager.server.start();&lt;/font&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="2159.5" y="1600" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-234" value="ReactiveWebServerApplicationContext#&lt;br&gt;&lt;b&gt;getHttpHandler&lt;/b&gt;()&lt;br&gt;&lt;font color=&quot;#007fff&quot;&gt;这个时候才初始化请求处理器，是&lt;b&gt;HttpWebHandlerAdapter&lt;/b&gt;类型的Bean, 由&lt;br&gt;HttpHandlerAutoConfiguration创建&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="2399.5" y="1479" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-244" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-236" target="QhXQWBFm0-bGqjXrz0u2-241" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="QhXQWBFm0-bGqjXrz0u2-236" target="O3d2Nxprm6Z4arKHyfC2-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-236" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;WebFluxAutoConfiguration&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="840" y="280" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-238" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;reactor-netty&lt;br&gt;spring-webflux&lt;br&gt;...&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="640" y="280" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-247" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-241" target="QhXQWBFm0-bGqjXrz0u2-246" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-241" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;HttpHandlerAutoConfiguration&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="840" y="360" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-243" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-242" target="QhXQWBFm0-bGqjXrz0u2-236" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-242" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;ReactiveWebServerFactoryAutoConfiguration&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="840" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;" edge="1" parent="1" source="QhXQWBFm0-bGqjXrz0u2-246" target="O3d2Nxprm6Z4arKHyfC2-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-246" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;AnnotationConfig#httpHandler()&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#007fff&quot;&gt;AnnotationConfig 是配置类&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1080.5" y="360" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="QhXQWBFm0-bGqjXrz0u2-248" target="QhXQWBFm0-bGqjXrz0u2-250">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-248" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;b&gt;WebHttpHandlerBuilder&lt;/b&gt;#build();&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="1320" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-254" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-250" target="QhXQWBFm0-bGqjXrz0u2-234" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1660" y="1460" />
+              <mxPoint x="2499" y="1460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-250" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;HttpWebHandlerAdapter adapted = new &lt;b&gt;HttpWebHandlerAdapter&lt;/b&gt;(decorated);&lt;br&gt;...&lt;br&gt;&lt;/font&gt;return adapted;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="1560" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="O3d2Nxprm6Z4arKHyfC2-1" target="O3d2Nxprm6Z4arKHyfC2-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-1" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;EnableWebFluxConfiguration&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1080.5" y="280" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-3" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;org.springframework.boot.autoconfigure.web.reactive&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="840" y="160" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-5" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;WebFluxConfigurationSupport#&lt;br&gt;&lt;b&gt;webHandler&lt;/b&gt;()&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 10px;&quot; color=&quot;#007fff&quot;&gt;创建DispatcherHandler Bean&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="280" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="O3d2Nxprm6Z4arKHyfC2-7" target="QhXQWBFm0-bGqjXrz0u2-248">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="O3d2Nxprm6Z4arKHyfC2-7" target="O3d2Nxprm6Z4arKHyfC2-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-7" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;WebHttpHandlerBuilder#&lt;br&gt;&lt;b&gt;applicationContext&lt;/b&gt;(&lt;br&gt;this.applicationContext)&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="360" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-12" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;基于 WebHandler 创建WebHttpHandlerBuilder 实例，然后装配上过滤器、统一异常处理、会话管理、编解码器、国际化Resolver、ForwardedHeaderTransformer&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="360" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-14" value="这里创建的FilteringWebHandler" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1769.5" y="455" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-15" value="&lt;div style=&quot;text-align: center; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;org.springframework.web.server.adapter&lt;/font&gt;&lt;font style=&quot;background-color: initial; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;.&lt;/font&gt;&lt;/font&gt;&lt;b style=&quot;background-color: initial; color: rgb(51, 0, 0);&quot;&gt;WebHttpHandlerBuilder&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;HTTP请求处理器Builder&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;b&gt;webHandler&lt;/b&gt; = {DispatcherHandler@5193}&amp;nbsp;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&lt;b&gt;applicationContext&lt;/b&gt; = {AnnotationConfigReactiveWebServerApplicationContext@3429}&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&lt;b&gt;filters&lt;/b&gt; = {ArrayList@5194}&amp;nbsp; size = 0&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&lt;b&gt;exceptionHandlers&lt;/b&gt; = {ArrayList@5195}&amp;nbsp; size = 2&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&amp;nbsp;0 = {DefaultErrorWebExceptionHandler@5680}&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&amp;nbsp;1 = {WebFluxResponseStatusExceptionHandler@5681}&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&lt;b&gt;sessionManager&lt;/b&gt; = null&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&lt;b&gt;codecConfigurer&lt;/b&gt; = {DefaultServerCodecConfigurer@5676}&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&lt;b&gt;localeContextResolver&lt;/b&gt; = {AcceptHeaderLocaleContextResolver@5677}&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;font color=&quot;#330000&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&lt;b&gt;forwardedHeaderTransformer&lt;/b&gt; = null&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" vertex="1" parent="1">
+          <mxGeometry x="-1480" y="200" width="440" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="O3d2Nxprm6Z4arKHyfC2-16" value="&lt;div style=&quot;text-align: center; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;org.springframework.web.server.adapter&lt;/font&gt;&lt;font style=&quot;background-color: initial; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;.&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;b style=&quot;color: rgb(51, 0, 0); background-color: initial;&quot;&gt;HttpWebHandlerAdapter&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;font-size: 11px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;最终的HTTP请求处理器（装饰器模式）&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&lt;b&gt;sessionManager&lt;/b&gt; = {DefaultWebSessionManager@5737}&amp;nbsp;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&lt;b&gt;codecConfigurer&lt;/b&gt; = {DefaultServerCodecConfigurer@5676}&amp;nbsp;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&lt;b&gt;localeContextResolver&lt;/b&gt; = {AcceptHeaderLocaleContextResolver@5677}&amp;nbsp;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&lt;b&gt;forwardedHeaderTransformer&lt;/b&gt; = null&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&lt;b&gt;applicationContext&lt;/b&gt; = {AnnotationConfigReactiveWebServerApplicationContext@3429}&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;enableLoggingRequestDetails = false&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;delegate = {ExceptionHandlingWebHandler@5696}&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&amp;nbsp;&lt;b&gt;exceptionHandlers&lt;/b&gt; = {Collections$UnmodifiableRandomAccessList@5746}&amp;nbsp; size = 3&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&amp;nbsp;delegate = {FilteringWebHandler@5691}&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&amp;nbsp; &lt;b&gt;chain&lt;/b&gt; = {DefaultWebFilterChain@5748}&amp;nbsp;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&amp;nbsp; delegate = {DispatcherHandler@5193}&amp;nbsp;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&amp;nbsp; &amp;nbsp;&lt;b&gt;handlerMappings&lt;/b&gt; = {Collections$UnmodifiableRandomAccessList@5203}&amp;nbsp; size = 3&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&amp;nbsp; &amp;nbsp;&lt;b&gt;handlerAdapters&lt;/b&gt; = {ArrayList@5204}&amp;nbsp; size = 3&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot; color=&quot;#330000&quot;&gt;&amp;nbsp; &amp;nbsp;&lt;b&gt;resultHandlers&lt;/b&gt; = {ArrayList@5205}&amp;nbsp; size = 4&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 11px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;fontColor=#007FFF;" vertex="1" parent="1">
+          <mxGeometry x="-1960" y="200" width="440" height="240" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
