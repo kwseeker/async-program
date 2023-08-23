@@ -251,6 +251,8 @@ doOnTerminate ...
 
 #### 异步处理
 
+
+
 #### 背压
 
 + 自行实现
@@ -305,3 +307,9 @@ TODO: 热序列源码实现原理。
   [中文翻译](https://www.cnblogs.com/crazymakercircle/p/14292098.html) (版本可能有点旧，但是差别不大)
 
 + [由表及里学 ProjectReactor](http://blog.yanick.site/2018/06/26/java/spring/projectreactor/) 
+
++ 入门博客（看官方文档可能把握不住重点）
+
+  + [Project Reactor学习](https://zhuanlan.zhihu.com/p/35964846)
+  + [Spring响应式编程](https://blog.csdn.net/get_set/category_7484996.html)
+
