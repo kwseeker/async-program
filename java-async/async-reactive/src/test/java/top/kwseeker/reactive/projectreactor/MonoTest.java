@@ -5,8 +5,13 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -142,5 +147,39 @@ public class MonoTest {
         CompletableFuture<String> f = CompletableFuture.supplyAsync(() -> "helloFuture");
         assertThat(Mono.fromFuture(f)
                 .block()).isEqualToIgnoringCase("helloFuture");
+    }
+
+    @Test
+    public void testMonoFromCallable() {
+        Mono<String> mono = Mono.fromCallable(() -> {
+            long reqData = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+            return String.valueOf(reqData);
+        });
+        mono.subscribe(System.out::println);
+        ThreadUtil.sleep(2000);
+        mono.subscribe(System.out::println);
+    }
+
+    @Test
+    public void testMonoZipAndWhen() {
+        final Map<String, Object> bindingContext = new HashMap<>();
+
+        Mono<Void> voidMono = Mono.zip(Arrays.asList(Mono.just(1), Mono.just(2)), objectArray ->
+                        Arrays.stream(objectArray)
+                                //.map(object -> handleResult(((HandlerResult) object), bindingContext))
+                                .map(object -> {
+                                    bindingContext.put(String.valueOf(object), object);
+                                    return Mono.empty();
+                                })
+                                .collect(Collectors.toList()))
+                .flatMap(Mono::when)
+                .doOnSuccess(aVoid -> System.out.println("zip all done"));
+
+        voidMono.then(Mono.defer(() -> {
+            System.out.println("after zip all done");
+            return Mono.just("done");
+        })).subscribe();
+
+        assertEquals(2, bindingContext.size());
     }
 }

@@ -117,9 +117,9 @@ ProjectReactor是Spring母公司借鉴RxJava开发的符合响应式编程规范
 
 + 冷发布者 & 热发布者
 
-  冷发布者为每一个订阅（subscription） 都重新生成数据。如果没有创建任何订阅（subscription），那么就不会生成数据。
+  冷发布者被订阅的时候才会生成数据，每一个订阅（subscription） 都重新生成数据，如果没有创建任何订阅（subscription），那么就不会生成数据。
 
-  热发布者，即使没有订阅者它们也会发出数据， 订阅者只会收到订阅之后发出的元素。
+  热发布者，即使没有订阅者它们也会生成数据， 同样是订阅后才发出数据。
 
   > 冷发布者只是强调为每个订阅都重新生成数据，但不确保为两个先后的订阅者生成一样的数据，刚开始容易错误理解为生成一样的数据。
 
@@ -182,6 +182,27 @@ ProjectReactor是Spring母公司借鉴RxJava开发的符合响应式编程规范
 + push()
 
 + using()
+
++ defer()
+
+  延迟创建一个Mono发布者（订阅后执行），每次订阅都会重新执行defer()中的Supplier方法。
+
+  ```java
+  @Test
+  public void testDefer() {
+      Mono<Date> m1 = Mono.just(new Date());
+      //每次订阅都会重新执行defer()中的Supplier方法
+      //可以通过defer将Mono.just()转成冷发布者
+      Mono<Date> m2 = Mono.defer(() -> Mono.just(new Date()));
+  
+      m1.subscribe(System.out::println);	//Tue Sep 05 00:43:41 CST 2023
+      m2.subscribe(System.out::println);	//Tue Sep 05 00:43:41 CST 2023
+  
+      ThreadUtil.sleep(5000);
+      m1.subscribe(System.out::println);	//Tue Sep 05 00:43:41 CST 2023
+      m2.subscribe(System.out::println);	//Tue Sep 05 00:43:46 CST 2023
+  }
+  ```
 
 测试Demo: PublisherSelfDefinedSequenceTest.java
 
@@ -265,7 +286,7 @@ doOnTerminate ...
 
 又称冷序列、热序列。
 
-just()生成是一个热序列，它直接在组装期就拿到数据，如果之后有谁订阅它，就**重新发送数据**给订阅者。
+just()生成是一个热序列，它直接在**组装期**就拿到数据，如果之后有谁订阅它，就**重新发送数据**给订阅者。
 
 Reactor 中多数其他的热发布者是扩展自Processor 的。
 
