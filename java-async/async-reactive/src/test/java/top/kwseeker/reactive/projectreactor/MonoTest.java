@@ -182,4 +182,23 @@ public class MonoTest {
 
         assertEquals(2, bindingContext.size());
     }
+
+    @Test
+    public void testMonoCheckpoint() {
+        Mono.fromRunnable(() -> {
+                    if (System.currentTimeMillis() % 2 == 0) {
+                        System.out.println("simulated except");
+                        throw new RuntimeException("simulated except");
+                    } else {
+                        System.out.println("normal exec");
+                    }
+                })
+                .checkpoint("检查点，检查到上流发生错误") //为这个特定的Mono激活回溯(程序集标记)，方法是给它一个描述，如果在检查点上游发生错误，该描述将反映在程序集回溯中。
+                                                                 //即上游发生错误会打印这个描述
+                .onErrorResume(ex -> {
+                    System.out.println("onErrorResume ...");
+                    return Mono.error(ex);
+                })
+                .subscribe();
+    }
 }
