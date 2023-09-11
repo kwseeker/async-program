@@ -15,6 +15,7 @@
     <module>usage-boot-async</module>
     <module>usage-servlet</module>
     <module>usage-webflux</module>
+    <module>reactor-netty</module>
   </modules>
 
   <name>java-async</name>
