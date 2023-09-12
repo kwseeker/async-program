@@ -2,6 +2,7 @@ package top.kwseeker.reactor.netty.webflux.http.server.reactive;
 
 import java.net.InetSocketAddress;
 
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ReactiveHttpInputMessage;
 import org.springframework.http.server.RequestPath;
@@ -16,7 +17,7 @@ public interface ServerHttpRequest extends HttpRequest, ReactiveHttpInputMessage
 
 	MultiValueMap<String, String> getQueryParams();
 
-	//MultiValueMap<String, HttpCookie> getCookies();
+	MultiValueMap<String, HttpCookie> getCookies();
 
 	@Nullable
 	default InetSocketAddress getRemoteAddress() {

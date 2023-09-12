@@ -64,16 +64,16 @@ public class ReactorServerHttpResponse extends AbstractServerHttpResponse implem
     protected void applyHeaders() {
     }
 
-    //@Override
-    //protected void applyCookies() {
-    //    // Netty Cookie doesn't support sameSite. When this is resolved, we can adapt to it again:
-    //    // https://github.com/netty/netty/issues/8161
-    //    for (List<ResponseCookie> cookies : getCookies().values()) {
-    //        for (ResponseCookie cookie : cookies) {
-    //            this.response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-    //        }
-    //    }
-    //}
+    @Override
+    protected void applyCookies() {
+        // Netty Cookie doesn't support sameSite. When this is resolved, we can adapt to it again:
+        // https://github.com/netty/netty/issues/8161
+        for (List<ResponseCookie> cookies : getCookies().values()) {
+            for (ResponseCookie cookie : cookies) {
+                this.response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            }
+        }
+    }
 
     @Override
     public Mono<Void> writeWith(Path file, long position, long count) {

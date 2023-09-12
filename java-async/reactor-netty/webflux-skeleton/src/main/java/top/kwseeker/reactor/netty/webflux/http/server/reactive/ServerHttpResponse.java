@@ -13,8 +13,7 @@ public interface ServerHttpResponse extends ReactiveHttpOutputMessage {
     @Nullable
     HttpStatus getStatusCode();
 
-    //MultiValueMap<String, ResponseCookie> getCookies();
+    MultiValueMap<String, ResponseCookie> getCookies();
 
-    //TODO
-    //void addCookie(ResponseCookie cookie);
+    void addCookie(ResponseCookie cookie);
 }

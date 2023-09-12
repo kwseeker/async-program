@@ -9,6 +9,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.MediaType;
 
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.RequestMethod;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,6 +20,7 @@ import top.kwseeker.reactor.netty.webflux.web.server.WebHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +61,12 @@ public class DispatcherHandler implements WebHandler {
 
             body = Flux.from(resultFlux).collectList().map(list -> {
                 boolean release = true;
+
+                // HTTP Cookie https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies
+                ResponseCookie.ResponseCookieBuilder cookieBuilder = ResponseCookie.from("SomeCookie", "123456")
+                                .maxAge(Duration.ofHours(2)).secure(false).httpOnly(false);
+                response.addCookie(cookieBuilder.build());
+
                 DataBuffer buffer = response.bufferFactory().allocateBuffer();
                 CollectionType valueType = getObjectMapper().getTypeFactory().constructCollectionType(List.class, UserVO.class);
                 ObjectWriter writer = getObjectMapper().writer().forType(valueType);

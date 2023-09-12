@@ -7,10 +7,13 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.PooledDataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ChannelSendOperator;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -36,7 +39,7 @@ public abstract class AbstractServerHttpResponse implements ServerHttpResponse {
 
 	private final HttpHeaders headers;
 
-	//private final MultiValueMap<String, ResponseCookie> cookies;
+	private final MultiValueMap<String, ResponseCookie> cookies;
 
 	private final AtomicReference<State> state = new AtomicReference<>(State.NEW);
 
@@ -52,7 +55,7 @@ public abstract class AbstractServerHttpResponse implements ServerHttpResponse {
 		Assert.notNull(headers, "HttpHeaders must not be null");
 		this.dataBufferFactory = dataBufferFactory;
 		this.headers = headers;
-		//this.cookies = new LinkedMultiValueMap<>();
+		this.cookies = new LinkedMultiValueMap<>();
 	}
 
 
@@ -103,24 +106,24 @@ public abstract class AbstractServerHttpResponse implements ServerHttpResponse {
 				HttpHeaders.readOnlyHttpHeaders(this.headers) : this.headers);
 	}
 
-	//@Override
-	//public MultiValueMap<String, ResponseCookie> getCookies() {
-	//	return (this.state.get() == State.COMMITTED ?
-	//			CollectionUtils.unmodifiableMultiValueMap(this.cookies) : this.cookies);
-	//}
-	//
-	//@Override
-	//public void addCookie(ResponseCookie cookie) {
-	//	Assert.notNull(cookie, "ResponseCookie must not be null");
-	//
-	//	if (this.state.get() == State.COMMITTED) {
-	//		throw new IllegalStateException("Can't add the cookie " + cookie +
-	//				"because the HTTP response has already been committed");
-	//	}
-	//	else {
-	//		getCookies().add(cookie.getName(), cookie);
-	//	}
-	//}
+	@Override
+	public MultiValueMap<String, ResponseCookie> getCookies() {
+		return (this.state.get() == State.COMMITTED ?
+				CollectionUtils.unmodifiableMultiValueMap(this.cookies) : this.cookies);
+	}
+
+	@Override
+	public void addCookie(ResponseCookie cookie) {
+		Assert.notNull(cookie, "ResponseCookie must not be null");
+
+		if (this.state.get() == State.COMMITTED) {
+			throw new IllegalStateException("Can't add the cookie " + cookie +
+					"because the HTTP response has already been committed");
+		}
+		else {
+			getCookies().add(cookie.getName(), cookie);
+		}
+	}
 
 	/**
 	 * Return the underlying server response.
@@ -193,7 +196,7 @@ public abstract class AbstractServerHttpResponse implements ServerHttpResponse {
 				Mono.fromRunnable(() -> {
 					applyStatusCode();
 					applyHeaders();
-					//applyCookies();	//TODO
+					applyCookies();
 					this.state.set(State.COMMITTED);
 				}));
 		if (writeAction != null) {
@@ -236,10 +239,10 @@ public abstract class AbstractServerHttpResponse implements ServerHttpResponse {
 	 */
 	protected abstract void applyHeaders();
 
-	///**
-	// * Add cookies from {@link #getHeaders()} to the underlying response.
-	// * This method is called once only.
-	// */
-	//protected abstract void applyCookies();
+	/**
+	 * Add cookies from {@link #getHeaders()} to the underlying response.
+	 * This method is called once only.
+	 */
+	protected abstract void applyCookies();
 
 }

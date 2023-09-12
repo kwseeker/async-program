@@ -24,9 +24,9 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 	@Nullable
 	private MultiValueMap<String, String> queryParams;
 
-	//@Nullable
-	//private MultiValueMap<String, HttpCookie> cookies;
-	//
+	@Nullable
+	private MultiValueMap<String, HttpCookie> cookies;
+
 	//@Nullable
 	//private SslInfo sslInfo;
 	//
@@ -131,25 +131,25 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 		return "";
 	}
 
-	//@Override
-	//public MultiValueMap<String, HttpCookie> getCookies() {
-	//	if (this.cookies == null) {
-	//		this.cookies = CollectionUtils.unmodifiableMultiValueMap(initCookies());
-	//	}
-	//	return this.cookies;
-	//}
+	@Override
+	public MultiValueMap<String, HttpCookie> getCookies() {
+		if (this.cookies == null) {
+			this.cookies = CollectionUtils.unmodifiableMultiValueMap(initCookies());
+		}
+		return this.cookies;
+	}
 
-	///**
-	// * Obtain the cookies from the underlying "native" request and adapt those to
-	// * an {@link HttpCookie} map. The return value is turned into an immutable
-	// * map and cached.
-	// * <p>Note that this method is invoked lazily on access to
-	// * {@link #getCookies()}. Sub-classes should synchronize cookie
-	// * initialization if the underlying "native" request does not provide
-	// * thread-safe access to cookie data.
-	// */
-	//protected abstract MultiValueMap<String, HttpCookie> initCookies();
-	//
+	/**
+	 * Obtain the cookies from the underlying "native" request and adapt those to
+	 * an {@link HttpCookie} map. The return value is turned into an immutable
+	 * map and cached.
+	 * <p>Note that this method is invoked lazily on access to
+	 * {@link #getCookies()}. Sub-classes should synchronize cookie
+	 * initialization if the underlying "native" request does not provide
+	 * thread-safe access to cookie data.
+	 */
+	protected abstract MultiValueMap<String, HttpCookie> initCookies();
+
 	//@Nullable
 	//@Override
 	//public SslInfo getSslInfo() {
