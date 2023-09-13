@@ -1,11 +1,11 @@
-<mxfile host="Electron" modified="2023-09-11T16:31:57.481Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="Y09f10tq52CK39cB70j-" version="21.6.5" type="device">
+<mxfile host="Electron" modified="2023-09-12T12:11:38.436Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="sDhp3KNi9MaeMUuMcx8Z" version="21.6.5" type="device">
   <diagram name="第 1 页" id="0NwcDRs000kfrG-1apiR">
     <mxGraphModel dx="3915" dy="879" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="QhXQWBFm0-bGqjXrz0u2-1" value="&lt;p style=&quot;line-height: 1&quot;&gt;&lt;/p&gt;&lt;h1&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;Spring-WebFlux 工作原理&lt;/font&gt;&lt;font style=&quot;font-size: 16px&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(v5.2.1)&amp;nbsp;&lt;br style=&quot;font-size: 10px&quot;&gt;&lt;/font&gt;&lt;/h1&gt;&lt;div style=&quot;font-size: 10px&quot;&gt;属于spring-framework的一个模块。对比Spring MVC实现原理看，两者实现还是类似的。这里基于 spring-boot-starter-webflux:2.2.1.RELEASE分析。&lt;/div&gt;&lt;p style=&quot;font-size: 10px&quot;&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;前提：&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 10px&quot;&gt;&lt;/p&gt;&lt;ul style=&quot;font-size: 10px&quot;&gt;&lt;li style=&quot;font-size: 10px&quot;&gt;SpringBoot 初始化流程（主要是Web容器初始化原理，可以参考 spring-analysis中的流程图）&lt;/li&gt;&lt;li style=&quot;font-size: 10px&quot;&gt;Reactor3、Reator-Netty(将Netty封装成了响应式的通信框架)、Netty工作原理（参考Netty源码分析流程图）、Netty应用开发（WebFlux默认使用Netty作为Web容器）&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;说明：&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;br&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;p style=&quot;font-size: 10px&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=10;" parent="1" vertex="1">
-          <mxGeometry x="10" y="20" width="830" height="160" as="geometry" />
+        <mxCell id="QhXQWBFm0-bGqjXrz0u2-1" value="&lt;p style=&quot;line-height: 1&quot;&gt;&lt;/p&gt;&lt;h1&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;Spring-WebFlux 工作原理&lt;/font&gt;&lt;font style=&quot;font-size: 16px&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(v5.2.1)&amp;nbsp;&lt;br style=&quot;font-size: 10px&quot;&gt;&lt;/font&gt;&lt;/h1&gt;&lt;div style=&quot;font-size: 10px&quot;&gt;属于spring-framework的一个模块。对比Spring MVC实现原理看，两者实现还是类似的。这里基于 spring-boot-starter-webflux:2.2.1.RELEASE分析。&lt;/div&gt;&lt;p style=&quot;font-size: 10px&quot;&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;前提：&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 10px&quot;&gt;&lt;/p&gt;&lt;ul style=&quot;font-size: 10px&quot;&gt;&lt;li style=&quot;font-size: 10px&quot;&gt;SpringBoot 初始化流程（主要是Web容器初始化原理，可以参考 spring-analysis中的流程图）&lt;/li&gt;&lt;li style=&quot;font-size: 10px&quot;&gt;Reactor3、Reator-Netty(将Netty封装成了响应式的通信框架)、Netty工作原理（参考Netty源码分析流程图）、Netty应用开发（WebFlux默认使用Netty作为Web容器）&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;说明：&lt;br&gt;&lt;ul&gt;&lt;li&gt;将WebFlux使用Reactor-Netty实现HTTP响应式服务器的主流程代码抽离到了reactor-netty/webflux-skeleton模块（省略了DispatcherHandler复杂的处理），可以用来理解Reactor-Netty对Netty的封装原理以及HTTP协议处理原理&lt;/li&gt;&lt;li&gt;决定还是将Reactor-Netty逻辑画到一个新的流程图，不然这里的流程图看起来有点过于复杂了&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;p style=&quot;font-size: 10px&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="10" y="10" width="810" height="180" as="geometry" />
         </mxCell>
         <mxCell id="QhXQWBFm0-bGqjXrz0u2-41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="QhXQWBFm0-bGqjXrz0u2-36" target="QhXQWBFm0-bGqjXrz0u2-40" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -1199,7 +1199,7 @@
         <mxCell id="u_z_PSljN5TfgaHLhyht-125" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="u_z_PSljN5TfgaHLhyht-120" target="u_z_PSljN5TfgaHLhyht-124" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="5zkAXpEHr8CIqhBs2lp0-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="u_z_PSljN5TfgaHLhyht-120" target="5zkAXpEHr8CIqhBs2lp0-1">
+        <mxCell id="5zkAXpEHr8CIqhBs2lp0-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="u_z_PSljN5TfgaHLhyht-120" target="5zkAXpEHr8CIqhBs2lp0-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="u_z_PSljN5TfgaHLhyht-120" value="&lt;div style=&quot;&quot;&gt;handlerMethod = &lt;b&gt;lookupHandlerMethod&lt;/b&gt;(exchange);&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;通过exchange中的请求信息与mappingRegistry中注册的RequestMappingInfo匹配，找到对应的HandlerMethod, 即 request -&amp;gt; mappingLookup -&amp;gt;&amp;nbsp; HandlerMethod&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;arcSize=8;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
@@ -1592,13 +1592,13 @@
         <mxCell id="IVSfiaFSnUMNmgRAi2Nb-9" value="ReactorServerHttpResponse" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="5370" y="4790" width="180" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="IVSfiaFSnUMNmgRAi2Nb-10" value="&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;NettyOutbound send(Publisher&amp;lt;? extends ByteBuf&amp;gt; source)&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;arcSize=8;" parent="1" vertex="1">
+        <mxCell id="IVSfiaFSnUMNmgRAi2Nb-10" value="&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;NettyOutbound send(Publisher&amp;lt;? extends ByteBuf&amp;gt; source)&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;arcSize=8;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="5600" y="4820" width="160" height="60" as="geometry" />
         </mxCell>
         <mxCell id="IVSfiaFSnUMNmgRAi2Nb-12" value="HttpOperations" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="5630" y="4790" width="100" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="5zkAXpEHr8CIqhBs2lp0-1" value="&lt;div style=&quot;&quot;&gt;for mappings:&lt;/div&gt;&lt;div style=&quot;&quot;&gt;T match = getMatchingMapping(mapping, exchange);&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;arcSize=8;" vertex="1" parent="1">
+        <mxCell id="5zkAXpEHr8CIqhBs2lp0-1" value="&lt;div style=&quot;&quot;&gt;for mappings:&lt;/div&gt;&lt;div style=&quot;&quot;&gt;T match = getMatchingMapping(mapping, exchange);&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;arcSize=8;" parent="1" vertex="1">
           <mxGeometry x="4360" y="2850" width="240" height="60" as="geometry" />
         </mxCell>
       </root>
