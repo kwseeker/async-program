@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-09-11T04:04:45.135Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="RBEeb-Cr0Ri0zginQMpa" version="21.6.5" type="device">
+<mxfile host="Electron" modified="2023-09-15T07:36:46.649Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="ImfYjyW5FGo7gfUZ6pag" version="21.6.5" type="device" pages="2">
   <diagram name="几个测试的源码分析" id="a8pONaKq-KVtjoL9c5xY">
     <mxGraphModel dx="3088" dy="879" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -181,7 +181,7 @@
         <mxCell id="CK6vnS1zt3dgLDD-GHNz-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="CK6vnS1zt3dgLDD-GHNz-63" target="CK6vnS1zt3dgLDD-GHNz-55" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="TQo1rzmmMs-oyPfZzubr-2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="CK6vnS1zt3dgLDD-GHNz-63" target="nTmsKCs9zrsigBeYAdxU-45">
+        <mxCell id="TQo1rzmmMs-oyPfZzubr-2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="CK6vnS1zt3dgLDD-GHNz-63" target="nTmsKCs9zrsigBeYAdxU-45" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1540" y="990" />
@@ -350,7 +350,7 @@
             <mxPoint x="9" y="-1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TQo1rzmmMs-oyPfZzubr-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="nTmsKCs9zrsigBeYAdxU-39" target="nTmsKCs9zrsigBeYAdxU-41">
+        <mxCell id="TQo1rzmmMs-oyPfZzubr-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="nTmsKCs9zrsigBeYAdxU-39" target="nTmsKCs9zrsigBeYAdxU-41" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1500" y="1210" />
@@ -360,7 +360,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="TQo1rzmmMs-oyPfZzubr-4" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;catch&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="TQo1rzmmMs-oyPfZzubr-3">
+        <mxCell id="TQo1rzmmMs-oyPfZzubr-4" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;catch&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="TQo1rzmmMs-oyPfZzubr-3" vertex="1" connectable="0">
           <mxGeometry x="-0.9023" y="2" relative="1" as="geometry">
             <mxPoint x="-12" y="-3" as="offset" />
           </mxGeometry>
@@ -817,8 +817,8 @@
         <mxCell id="utpMoaJwS99ryY_kJ8n_-79" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;b style=&quot;font-size: 10px;&quot;&gt;CountDownLatch&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;&amp;nbsp;借助此类实现阻塞等待&lt;/font&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
           <mxGeometry x="-892" y="505" width="172" height="45" as="geometry" />
         </mxCell>
-        <mxCell id="utpMoaJwS99ryY_kJ8n_-80" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;i style=&quot;font-size: 10px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;b style=&quot;font-size: 10px;&quot;&gt;Disposable&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot;&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="-965" y="422" width="125" height="39" as="geometry" />
+        <mxCell id="utpMoaJwS99ryY_kJ8n_-80" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;i style=&quot;font-size: 10px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;b style=&quot;font-size: 10px;&quot;&gt;Disposable&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;定义关闭和释放资源操作&lt;/font&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-965" y="422" width="125" height="58" as="geometry" />
         </mxCell>
         <mxCell id="utpMoaJwS99ryY_kJ8n_-82" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;i style=&quot;font-size: 10px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;b style=&quot;font-size: 10px;&quot;&gt;InnerConsumer&lt;i style=&quot;font-size: 10px;&quot;&gt;&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot;&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
           <mxGeometry x="-1231" y="505" width="180" height="39" as="geometry" />
@@ -1148,8 +1148,77 @@
         <mxCell id="2PpnnYcuXd5Uxk_XQZ8l-1" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;这步可以看到发布者FluxRange、订阅者BaseSubscriber、RangeSubscription &lt;br&gt;是怎么联系起来的？&lt;br&gt;FluxRange 通过subscribe()方法传参，绑定某次订阅关联的订阅者；&lt;br&gt;订阅者通过onSubscribe()方法传参，绑定某次订阅关联的 Subscription(定义数据生成传输方式) 多与发布者相关;&lt;br&gt;比如 RangeSubscription 是 FluxRange 内部类；&lt;br&gt;Subscription 中保留订阅者的引用&amp;nbsp;&lt;br&gt;&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="40" y="461" width="520" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="TQo1rzmmMs-oyPfZzubr-1" value="&lt;b&gt;RangeSubscription&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="TQo1rzmmMs-oyPfZzubr-1" value="&lt;b&gt;RangeSubscription&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="915" y="610" width="130" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Zfh2cTViqkOa4VVo_dZq" name="核心接口">
+    <mxGraphModel dx="2261" dy="879" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CfrB2G2FJDWytA7X773g-1" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;i style=&quot;font-size: 10px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;b style=&quot;font-size: 10px;&quot;&gt;Processor&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;既是订阅者有时发布者，不推荐使用&lt;/font&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="-270" y="298.5" width="180" height="61.5" as="geometry" />
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-2" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;i style=&quot;font-size: 10px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;b style=&quot;font-size: 10px;&quot;&gt;Publisher&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;发布者是任意数量序列元素的提供者&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;//请求发布者开始传输流数据给某个订阅者&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;+ subscribe(Subscriber&amp;lt;T&amp;gt;): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="-280" y="80" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-3" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;i style=&quot;font-size: 10px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;b style=&quot;font-size: 10px;&quot;&gt;Subscriber&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;//调用Publisher.subscribe(Subscriber)后会被回调，负责调用&lt;/font&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;Subscription.request(long) 来请求发布者发送数据&lt;/font&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ onSubscribe(Subscription): void&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;//发布者发送数据元素的处理回调，传参带过来的就是元素，&lt;/font&gt;&lt;span style=&quot;color: rgb(0, 127, 255); background-color: initial;&quot;&gt;或者称为事件&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;+ onNext(T): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;//正常结束流元素传输，手动主动结束或者元素传输完毕&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;+ onComplete(): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;//异常结束流元素传输，比如处理过程中抛出异常需要结束流处理&lt;/font&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;+ onError(Throwable): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="-680" y="80" width="358" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-4" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;i style=&quot;font-size: 10px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;b style=&quot;font-size: 10px;&quot;&gt;Subscription（发布订阅模式的调度中心）&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6;&quot;&gt;&lt;font style=&quot;&quot; color=&quot;#007fff&quot;&gt;这个类是调度中心，定义数据发送，回调订阅者回调方法&lt;br&gt;&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;//请求n个流元素&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;+ request(long): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 9px;&quot;&gt;&lt;font style=&quot;font-size: 9px;&quot; color=&quot;#007fff&quot;&gt;//停止发送流元素，并清理资源，cancel之前已经请求的元素还是会发送&lt;/font&gt;&lt;br style=&quot;&quot;&gt;+ cancel(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="-680" y="298.5" width="360" height="121.5" as="geometry" />
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-5" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.606;exitY=0;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;fontSize=10;exitPerimeter=0;" edge="1" parent="1" source="CfrB2G2FJDWytA7X773g-1" target="CfrB2G2FJDWytA7X773g-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-161" y="197" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-6" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=0.001;exitDx=0;exitDy=0;entryX=1.000;entryY=0.688;entryDx=0;entryDy=0;fontSize=10;" edge="1" parent="1" source="CfrB2G2FJDWytA7X773g-1" target="CfrB2G2FJDWytA7X773g-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-180" y="218" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-7" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;Publisher 与 Subscriber 可以是一对多的关系，每个 Subscriber 只能向单个Publisher订阅一次&lt;br&gt;Subscription 的定义看上去就是数据源&lt;br&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-680" y="30" width="480" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-8" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="-710" y="80" width="20" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-9" value="reactive-stream &lt;br&gt;API规范" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-820" y="220" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.87;entryDx=0;entryDy=0;endArrow=block;endFill=1;entryPerimeter=0;" edge="1" parent="1" source="CfrB2G2FJDWytA7X773g-11" target="CfrB2G2FJDWytA7X773g-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-501" y="440" />
+              <mxPoint x="-501" y="430" />
+              <mxPoint x="-302" y="430" />
+              <mxPoint x="-302" y="254" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-11" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;i style=&quot;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b style=&quot;&quot;&gt;CoreSubscriber&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;+ currentContext(): Context&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;font color=&quot;#007fff&quot;&gt;//@Override, 只是为了加点文档注释&lt;br&gt;&lt;/font&gt;+ onSubscribe(Subscription): void&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="-612" y="440" width="224" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="CfrB2G2FJDWytA7X773g-19" target="CfrB2G2FJDWytA7X773g-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-152" y="430" />
+              <mxPoint x="-60" y="430" />
+              <mxPoint x="-60" y="250" />
+              <mxPoint x="-100" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CfrB2G2FJDWytA7X773g-19" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 10px;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;i style=&quot;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b style=&quot;&quot;&gt;CorePublisher&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 10px;&quot; size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ void subscribe(CoreSubscriber&amp;lt;? super T&amp;gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 10px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;subscriber);&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="-264" y="440" width="224" height="103" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

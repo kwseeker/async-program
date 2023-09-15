@@ -162,6 +162,10 @@ ProjectReactor是Spring母公司借鉴RxJava开发的符合响应式编程规范
 
 ### 常用接口方法
 
+#### 核心接口
+
+![](../img/project-reactor-core-interfaces.png)
+
 #### 发布者创建方法
 
 这里主要说明自定义序列发布逻辑的发布者的创建方法。可以借助Sink接口（如MonoSink、FluxSink、SynchronousSink等等）定义序列发布逻辑，使用Sink接口的话Reactor其实已经将接口调用等都连接好了，开发者只需要定义数据生成方式即可。（sink：水槽）
@@ -175,7 +179,7 @@ ProjectReactor是Spring母公司借鉴RxJava开发的符合响应式编程规范
   > 这里的回调指的是onSubscribe()后request()会回调generate()中传入的Consumer#accept() 方法，在这个方法中只能最多调用一次next()方法。参考测试代码。
 
 + create()
-  create 方法的生成方式既可以是同步， 也可以是异步的，并且还可以每次发出多个元素（及可以调用多次next()方法）。
+  create 方法的生成方式既可以是同步， 也可以是异步的，并且还可以每次发出多个元素（即可以调用多次next()方法）。
 
   create() 传参的 `Consumer<? super FluxSink<T>> emitter` 只会被调用一次。需要在其方法内完成序列值发送到结束的流程。
 
@@ -207,6 +211,22 @@ ProjectReactor是Spring母公司借鉴RxJava开发的符合响应式编程规范
 测试Demo: PublisherSelfDefinedSequenceTest.java
 
 #### 订阅者序列元素传递回调方法 onXxx
+
++ onSubscribe(Subscription): void
+
+  调用Publisher.subscribe(Subscriber)后会被回调，负责调用Subscription.request(long) 来请求发布者发送数据。
+
++ onNext(T): void
+
+  发布者发送数据元素的处理回调，传参带过来的就是元素，或者称为事件。
+
++ onComplete(): void
+
+  正常结束流元素传输，手动主动结束或者元素传输完毕。
+
++ onError(Throwable): void
+
+  异常结束流元素传输，比如处理过程中抛出异常需要结束流处理。
 
 #### 请求发布后回调监控方法 doOnXxx 
 
@@ -266,13 +286,9 @@ doOnTerminate ...
 
 #### 信号
 
-
-
 #### 操作符（算子）与 全局钩子
 
 #### 异步处理
-
-
 
 #### 背压
 
