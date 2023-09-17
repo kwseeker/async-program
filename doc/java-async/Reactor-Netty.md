@@ -129,18 +129,35 @@
 + **客户端**
 
   + 连接服务端
+  
   + 饿汉式初始化
+  
   + 写请求数据
+  
   + 读响应数据
+  
   + 生命周期回调
+  
   + TCP层配置
+  
   + 连接池
+  
+    
+  
   + SSL 和 TLS
+  
   + 重试策略
+  
   + HTTP/2
+  
   + 代理支持
+  
   + Metrics
+  
   + 链路追踪
+  
   + Unix Domain Sockets
+  
   + Host Name Resolution
+  
   + 超时配置
