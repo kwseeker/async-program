@@ -1,4 +1,7 @@
-**.drawio.bkp
+**/*.drawio.bkp
+**/*.drawio.dtmp
+*/.fastRequest/
+
 *.iml
 */.idea/
 **/target/

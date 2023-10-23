@@ -77,7 +77,7 @@ ProjectReactor是Spring母公司借鉴RxJava开发的符合响应式编程规范
 
     + Flux 
 
-      以为“流”，能够发出 0 到 N 个元素的标准的 `Publisher<T>`。
+      意为“流”，能够发出 0 到 N 个元素的标准的 `Publisher<T>`。
 
     + Mono
 
@@ -285,6 +285,8 @@ doOnTerminate ...
 测试Demo: PublisherOnErrorTest.java
 
 #### 信号
+
+##### 信号类型 SignalType
 
 #### 操作符（算子）与 全局钩子
 
