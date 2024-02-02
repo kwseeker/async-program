@@ -2,15 +2,13 @@ package top.kwseeker.async.orchestration.listener;
 
 import top.kwseeker.async.orchestration.Task;
 
-import java.util.Map;
-
 public class TaskTriggerListener implements TaskListener {
 
-    //后置任务
-    Map<String, Task> postTasks;
+    //监听的任务
+    Task task;
 
-    public TaskTriggerListener(Map<String, Task> postTasks) {
-        this.postTasks = postTasks;
+    public TaskTriggerListener(Task task) {
+        this.task = task;
     }
 
     /**
@@ -19,10 +17,7 @@ public class TaskTriggerListener implements TaskListener {
      */
     @Override
     public void onFinish(TaskFinishedEvent event) {
-        postTasks.forEach((name, task) -> {
-            //尝试提交任务到线程池，因为如果任务是强依赖需要判断前置任务是否都执行，都执行了才提交
-            //如果是弱依赖，可以直接提交到线程池
-            task.trySubmit(event);
-        });
+
+        task.triggerPostTasks(event);
     }
 }

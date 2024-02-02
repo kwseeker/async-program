@@ -39,23 +39,13 @@ public abstract class AbstractTask implements Task {
         this.weakDependency = weakDependency;
         this.func = func;
         this.param = param;
-        listeners.add(new TaskTriggerListener(postTasks));
+        listeners.add(new TaskTriggerListener(this));
     }
 
     @Override
     public String getName() {
         return name;
     }
-
-    //@Override
-    //public Map<String, Task> prevTasks() {
-    //    return prevTasks == null ? Collections.emptyMap() : prevTasks;
-    //}
-
-    //@Override
-    //public Map<String, Task> postTasks() {
-    //    return postTasks == null ? Collections.emptyMap() : postTasks;
-    //}
 
     @Override
     public void appendPrevTask(Task prevTask) {
@@ -122,6 +112,13 @@ public abstract class AbstractTask implements Task {
     }
 
     @Override
+    public void triggerPostTasks(TaskFinishedEvent event) {
+        postTasks.forEach((name, task) -> {
+            task.trySubmit(event);
+        });
+    }
+
+    @Override
     public void trySubmit(TaskFinishedEvent event) {
         //检查任务是否已经开始或完成, 可能任务已经在其他的依赖路径中已经被触发了
         if (started()) {
@@ -129,21 +126,25 @@ public abstract class AbstractTask implements Task {
         }
 
         if (weakDependency) {
-            //需要额外检查: 如果其依赖链中所有尾部任务已经执行完毕，不需要提交
+            //需要额外检查: TODO 如果其依赖链中所有尾部任务已经执行完毕，不需要提交
 
-            //TODO 参数传递可能需要根据实际需要重新实现
-            param = event.getResult();
             //弱依赖直接提交
+            //TODO 参数传递可能需要根据实际需要重新实现
+            if (event != null) {
+                param = event.getResult();
+            }
             future = (Future<Object>) ThreadPoolManager.submit(this);
         } else {
-            //TODO 可能任务依赖所有前置任务的执行结果还需要包装一下
-            param = event.getResult();
             //强依赖，判断所有前置依赖任务是否已经执行完毕
             for (Task task : prevTasks.values()) {
                 if (!task.finished()) {
                     //任意一个未完成都不提交
                     return;
                 }
+            }
+            //TODO 可能任务依赖所有前置任务的执行结果还需要包装一下
+            if (event != null) {
+                param = event.getResult();
             }
             future = (Future<Object>) ThreadPoolManager.submit(this);
         }

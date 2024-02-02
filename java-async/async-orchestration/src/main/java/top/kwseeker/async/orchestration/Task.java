@@ -20,18 +20,19 @@ public interface Task extends Runnable {
 
     void setFuture(Future<?> future);
 
-    //获取状态
     boolean started();
     boolean finished();
 
-    //添加监听器
+    /**
+     * 添加监听器
+     */
     void addListener(TaskListener listener);
 
     /**
-     * 尝试提交任务到线程池，
-     * 如果任务是强依赖需要判断前置任务是否都执行，都执行了才提交
-     * 如果是弱依赖，可以直接提交到线程池
+     * 触发后置任务执行
      */
+    void triggerPostTasks(TaskFinishedEvent event);
+
     void trySubmit(TaskFinishedEvent event);
 
     void tryCancel();

@@ -73,12 +73,11 @@ public class DefaultTaskGroup implements TaskGroup {
 
     @Override
     public void start() {
-        //弱依赖额外的处理
+        //弱依赖额外的处理 TODO
 
         //将头部任务全部丢给线程池执行，每执行完一个任务在任务完成时以回调的方式提交后置任务
         for (Task head : heads.values()) {
-            Future<?> future = ThreadPoolManager.submit(head);
-            head.setFuture(future);
+            head.trySubmit(null);
         }
     }
 
