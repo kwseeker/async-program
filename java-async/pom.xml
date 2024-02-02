@@ -16,6 +16,8 @@
     <module>usage-servlet</module>
     <module>usage-webflux</module>
     <module>reactor-netty</module>
+    <module>spring-webflux-webclient</module>
+    <module>async-orchestration</module>
   </modules>
 
   <name>java-async</name>
