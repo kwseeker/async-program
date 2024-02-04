@@ -28,7 +28,9 @@
 
 + **高性能、低线程数**
 
-这里拓展讨论下任务编排的实现方案及优劣对比：
+  
+
+## 任务编排的实现方案及优劣对比
 
 + CompletableFuture
 
@@ -67,7 +69,7 @@
 
 ## 自行设计实现asyncTool描述的功能
 
-感觉这个asyncTool描述的功能实现起来也比较简单，为了不被其他框架带节奏，先自行设计一个简单实现，然后对比其他实现。
+感觉这个asyncTool描述的功能实现起来也比较简单，为了不被其他框架带节奏，先花几个小时自行设计并实现一个简单实现，然后对比其他实现。
 
 先分析每个需求怎么实现：
 
@@ -94,7 +96,7 @@
 
   另外为了防止轮询等待任务执行完毕造成性能和资源损耗，使用回调触发后置依赖任务的执行。
 
-+ 支持强依赖和弱依赖
++ 代码实现也比较简单支持强依赖和弱依赖
 
   强依赖（默认）：（全部依赖都执行了才执行）每个任务都包含前置依赖任务的引用，检查所有强依赖前置任务完成状态，都完成才能执行，后置依赖任务依靠它的前置依赖任务触发，前置依赖。
 
@@ -123,3 +125,234 @@
   这个属于优化范畴的，可以先忽略。
 
 代码实现：java-async/async-orchestration。
+
+
+
+## asyncTool
+
+主要分析主要的类实现和关键逻辑实现。
+
+### 数据结构与接口设计
+
++ `IWorker<T, V>` 
+
+  定义异步任务业务主体，里面通过 WorkerWrapper 装饰器模式增强任务主体逻辑。
+
+  ```java
+  public interface IWorker<T, V> {
+      //定义任务业务实现，比如业务处理、RPC请求等
+      V action(T object, Map<String, WorkerWrapper> allWrappers);
+      //超时、异常时，返回的默认值
+      default V defaultValue() {
+          return null;
+      }
+  }
+  ```
+
++ `ICallback<T, V>`
+
+  回调接口，监听任务启动、任务执行结果。
+
++ `WorkerWrapper<T, V>`
+
+  从这个类数据结构可以看到，asyncTool将前置依赖封装成了`DependWrapper`（封装依赖的任务和是否是强依赖的标识），
+
+  其任务编排也是通过前后引用的方式（nextWrappers、dependWrappers），像链表一样。
+
+  ```java
+  /**
+  * 该wrapper的唯一标识
+  */
+  private String id;
+  /**
+  * worker将来要处理的param
+  */
+  private T param;
+  private IWorker<T, V> worker;
+  private ICallback<T, V> callback;forParamUseWrappers
+  /**
+  * 在自己后面的wrapper，如果没有，自己就是末尾；如果有一个，就是串行；如果有多个，有几个就需要开几个线程</p>
+  */
+  private List<WorkerWrapper<?, ?>> nextWrappers;
+  /**
+  * 依赖的wrappers，有2种情况，1:必须依赖的全部完成后，才能执行自己 2:依赖的任何一个、多个完成了，就可以执行自己
+  * 通过must字段来控制是否依赖项必须完成
+  */
+  private List<DependWrapper> dependWrappers;
+  /**
+  * 标记该事件是否已经被处理过了，譬如已经超时返回false了，后续rpc又收到返回值了，则不再二次回调
+  * 经试验,volatile并不能保证"同一毫秒"内,多线程对该值的修改和拉取
+  * <p>
+  * 1-finish, 2-error, 3-working
+  */
+  private AtomicInteger state = new AtomicInteger(0);
+  /**
+  * 该map存放所有wrapper的id和wrapper映射
+  */
+  private Map<String, WorkerWrapper> forParamUseWrappers;
+  /**
+  * 也是个钩子变量，用来存临时的结果
+  */
+  private volatile WorkResult<V> workResult = WorkResult.defaultResult();
+  /**
+  * 是否在执行自己前，去校验nextWrapper的执行结果<p>
+  * 1   4
+  * -------3
+  * 2
+  * 如这种在4执行前，可能3已经执行完毕了（被2执行完后触发的），那么4就没必要执行了。
+  * 注意，该属性仅在nextWrapper数量<=1时有效，>1时的情况是不存在的
+  */
+  private volatile boolean needCheckNextWrapperResult = true;
+  
+  private static final int FINISH = 1;
+  private static final int ERROR = 2;
+  private static final int WORKING = 3;
+  private static final int INIT = 0;
+  ```
+
+  + `DependWrapper`
+
+    ```java
+    private WorkerWrapper<?, ?> dependWrapper;
+    private boolean must = true;
+    ```
+
+  + `WorkerWrapper<T, V>$Builder<W,C>`
+
+    使用构造器模式通过此Builder创建任务实例、做任务编排。
+
++ `Async`
+
+  线程池封装，用于提交任务执行、管理线程池。
+
+  这里重点看：有依赖的多个任务怎么执行的？上一个任务的结果怎么传递给下一个任务的？
+
+  workerWrappers 其实是前面自己的实现中说的没有相互依赖关系的多个头部任务。
+
+  同步接口：**借助CompletableFuture提交所有头部任务并等待执行结束，其中每个头部任务还会遍历自己所有后置任务同样借助CompletableFuture提交所有后置任务并等待执行结束(如果只有一个后置任务就直接同步调用)，循环往复直到所有任务后置依赖执行结束**。
+
+  异步接口：**和同步接口的区别是头部任务是提交到了线程池并通过回调（IGroupCallback）处理结果，头部任务的后置任务的处理依旧是通过借助CompletableFuture提交所有后置依赖任务并等待执行结束(如果只有一个后置任务就直接同步调用)**。
+
+  > 注意这么写其实有个**问题**：由于上面包含同步等待操作（`CompletableFuture.allOf(...).get(...)`）容易导致任务线程堆积，因为一个任务依赖链条中所有任务全部执行完毕，所有任务线程才会结束，使用有线程数量限制的线程池很容易耗尽线程，估计是这个原因默认使用了`Executors.newCachedThreadPool()`创建线程池。
+  >
+  > **所以使用自定义的线程池替换COMMON_POOL也要小心这个线程耗尽的坑**。
+  >
+  > ```java
+  > private static final ThreadPoolExecutor COMMON_POOL = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+  > //还不如使用默认的ForkJoinPool，后面测试了使用默认的ForkJoinPool，即使线程数设置2也没有发生线程耗尽的情况。
+  > futures[i] = CompletableFuture.runAsync(() -> wrapper.work(executorService, timeout, forParamUseWrappers), executorService);
+  > ```
+  >
+  > 对比非同步等待的方式执行依赖任务，线程数量可能随链条长度成比例增长。
+  >
+  > 可以将`Async.COMMON_POOL`改成固定线程的线程池，然后执行`TestPar#testMutli7()`，验证上面问题的猜想；最终会发现有限的线程被占用完了，然后后面的任务无法处理，最后就超时了。
+  >
+  > ```
+  > //private static final ThreadPoolExecutor COMMON_POOL = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+  > private static final ThreadPoolExecutor COMMON_POOL = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+  > ```
+  >
+  > 测试了CompletableFuture默认使用的ForkJoinPool发现也不会导致线程堆积，TODO: 原因。
+  >
+  > ```java
+  > //private static final ThreadPoolExecutor COMMON_POOL = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+  > //这样修改，重新执行 TestPar#testMutli7() 也可以正常执行，没有发生线程耗尽的问题
+  > private static final ExecutorService COMMON_POOL =  new ForkJoinPool(2);
+  > ```
+
+  通过 WorkerWrapper param 字段将上一个任务结果传递给下一个任务。
+
+  ```java
+  public static boolean beginWork(long timeout, ExecutorService executorService, List<WorkerWrapper> workerWrappers) throws ExecutionException, InterruptedException {
+      if(workerWrappers == null || workerWrappers.size() == 0) {
+          return false;
+      }
+      //保存线程池变量
+      Async.executorService = executorService;
+      //定义一个map，存放所有的wrapper，key为wrapper的唯一id，value是该wrapper，可以从value中获取wrapper的result
+      Map<String, WorkerWrapper> forParamUseWrappers = new ConcurrentHashMap<>();
+      CompletableFuture[] futures = new CompletableFuture[workerWrappers.size()];
+      for (int i = 0; i < workerWrappers.size(); i++) {
+          WorkerWrapper wrapper = workerWrappers.get(i);
+          //借助CompletableFuture等待所有头部任务执行结束
+          //头部任务执行完毕，通过 WorkWrapper$beginNext() 执行后置任务
+          futures[i] = CompletableFuture.runAsync(() -> wrapper.work(executorService, timeout, forParamUseWrappers), executorService);
+      }
+      try {
+          CompletableFuture.allOf(futures).get(timeout, TimeUnit.MILLISECONDS);
+          return true;
+      } catch (TimeoutException e) {
+          Set<WorkerWrapper> set = new HashSet<>();
+          totalWorkers(workerWrappers, set);
+          for (WorkerWrapper wrapper : set) {
+              wrapper.stopNow();
+          }
+          return false;
+      }
+  }
+  
+  public static void beginWorkAsync(long timeout, ExecutorService executorService, IGroupCallback groupCallback, 	WorkerWrapper... workerWrapper) {
+      if (groupCallback == null) {
+          groupCallback = new DefaultGroupCallback();
+      }
+      IGroupCallback finalGroupCallback = groupCallback;
+      if (executorService != null) {
+          executorService.submit(() -> {
+              try {
+                  boolean success = beginWork(timeout, executorService, workerWrapper);
+                  if (success) {
+                      finalGroupCallback.success(Arrays.asList(workerWrapper));
+                  } else {
+                      finalGroupCallback.failure(Arrays.asList(workerWrapper), new TimeoutException());
+                  }
+              } catch (ExecutionException | InterruptedException e) {
+                  e.printStackTrace();
+                  finalGroupCallback.failure(Arrays.asList(workerWrapper), e);
+              }
+          });
+      } else {
+          COMMON_POOL.submit(() -> {
+              try {
+                  boolean success = beginWork(timeout, COMMON_POOL, workerWrapper);
+                  if (success) {
+                      finalGroupCallback.success(Arrays.asList(workerWrapper));
+                  } else {
+                      finalGroupCallback.failure(Arrays.asList(workerWrapper), new TimeoutException());
+                  }
+              } catch (ExecutionException | InterruptedException e) {
+                  e.printStackTrace();
+                  finalGroupCallback.failure(Arrays.asList(workerWrapper), e);
+              }
+          });
+      }
+  }
+  
+  //WorkerWrapper$beginNext
+  //通过遍历nextWrappers使用CompletableFuture.runAsync()提交任务，并等待所有后置依赖任务执行完毕
+  //CompletableFuture.allOf(futures).get(remainTime - costTime, TimeUnit.MILLISECONDS);
+  private void beginNext(ExecutorService executorService, long now, long remainTime) {
+      //花费的时间
+      long costTime = SystemClock.now() - now;
+      if (nextWrappers == null) {
+          return;
+      }
+      if (nextWrappers.size() == 1) {
+          nextWrappers.get(0).work(executorService, WorkerWrapper.this, remainTime - costTime, forParamUseWrappers);
+          return;
+      }
+      CompletableFuture[] futures = new CompletableFuture[nextWrappers.size()];
+      for (int i = 0; i < nextWrappers.size(); i++) {
+          int finalI = i;
+          //遍历nextWrappers使用CompletableFuture.runAsync()提交后置任务
+          futures[i] = CompletableFuture.runAsync(() -> nextWrappers.get(finalI)
+                .work(executorService, WorkerWrapper.this, remainTime - costTime, forParamUseWrappers), executorService);
+      }
+      try {
+          //等待所有后置依赖任务执行完毕
+          CompletableFuture.allOf(futures).get(remainTime - costTime, TimeUnit.MILLISECONDS);
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+  }
+  ```
+
