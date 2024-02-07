@@ -30,9 +30,9 @@
 
   
 
-## 任务编排的实现方案及优劣对比
+## 任务编排的实现方案
 
-+ CompletableFuture
++ **CompletableFuture**
 
   功能比较简单；
 
@@ -40,23 +40,23 @@
 
   CompletableFuture 实现上述包含复杂依赖关系的任务编排：async-future/top.kwseeker.async.future.jdAsyncTool.ComplexScene.java。
 
-+ 自己设计框架
++ **自己设计框架**
 
   基于监听回调
 
-+ asyncTool
++ **asyncTool**
 
-+ gobrs-async
++ **gobrs-async**
 
-+ Quasar / Loom
++ **Quasar / Loom**
 
-+ 任务调度框架
++ **任务调度框架**
 
   一些任务调度框架也实现了带依赖关系的任务编排功能。
 
   + Celery
 
-+ 工作流框架
++ **工作流框架**
 
   任务编排其实和工作流任务编排类似。
 
@@ -252,14 +252,14 @@
   > private static final ThreadPoolExecutor COMMON_POOL = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
   > ```
   >
-  > 测试了CompletableFuture默认使用的ForkJoinPool发现也不会导致线程堆积，TODO: 原因。
+  > 测试了CompletableFuture默认使用的ForkJoinPool没有看到线程被占用完，如下代码，其实是因为2是并行度，并不是可用的工作者线程的数量，实际可以创建很多工作者线程。
   >
   > ```java
-  > //private static final ThreadPoolExecutor COMMON_POOL = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+  >//private static final ThreadPoolExecutor COMMON_POOL = (ThreadPoolExecutor) Executors.newCachedThreadPool();
   > //这样修改，重新执行 TestPar#testMutli7() 也可以正常执行，没有发生线程耗尽的问题
   > private static final ExecutorService COMMON_POOL =  new ForkJoinPool(2);
   > ```
-
+  
   通过 WorkerWrapper param 字段将上一个任务结果传递给下一个任务。
 
   ```java
@@ -355,4 +355,8 @@
       }
   }
   ```
+
+
+
+## gobrs-async
 

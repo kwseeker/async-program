@@ -8,11 +8,11 @@ import java.util.concurrent.*;
  * 1 for循环计算
  * 2 ThreadPoolExecutor 分批计算
  * 3 ForkJoinPool 计算
- *
+ * <p>
  * 1亿个整数累加 (测试太简单了，线程切换比累加计算耗时地多，大炮打蚊子，只看看ForkJoinPool怎么用就行了)：
- *  cost(ms): 37, sum: 4949900825
- *  cost(ms): 96, sum: 4949900825  ThreadPoolExecutor
- *  cost(ms): 62, sum: 4949900825  ForkJoinPool
+ * cost(ms): 37, sum: 4949900825
+ * cost(ms): 96, sum: 4949900825  ThreadPoolExecutor
+ * cost(ms): 62, sum: 4949900825  ForkJoinPool
  */
 public class ArraySumMain {
 
@@ -21,7 +21,8 @@ public class ArraySumMain {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //int[] array = RandomIntArrayUtil.buildRandomIntArray(10 * 10000 * 10000);
-        int[] array = RandomIntArrayUtil.buildRandomIntArray(10000 * 10000);
+        //int[] array = RandomIntArrayUtil.buildRandomIntArray(10000 * 10000);
+        int[] array = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         System.out.println("build array done");
 
         //1 for循环计算
@@ -70,7 +71,7 @@ public class ArraySumMain {
 
     public static void forkJoinSum(int[] array) throws ExecutionException, InterruptedException {
         long result;
-        ForkJoinPool fjp  = new ForkJoinPool(NCPU); //使用的线程数
+        ForkJoinPool fjp = new ForkJoinPool(NCPU); //使用的线程数
 
         long begin = System.currentTimeMillis();
         SumRTask sumRTask = new SumRTask(array, 0, array.length);
@@ -79,7 +80,7 @@ public class ArraySumMain {
 
         System.out.println("cost(ms): " + (System.currentTimeMillis() - begin) + ", sum: " + result);
 
-        if(task.isCompletedAbnormally()){
+        if (task.isCompletedAbnormally()) {
             System.out.println(task.getException().getMessage());
         }
         fjp.shutdown();
