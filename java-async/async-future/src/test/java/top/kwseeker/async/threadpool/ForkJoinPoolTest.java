@@ -17,6 +17,148 @@ public class ForkJoinPoolTest {
     //private static final ExecutorService executor = Executors.newFixedThreadPool(8);
     private static final ExecutorService executor = Executors.newCachedThreadPool();
     private static final Map<Object, Integer> methodDepthCounter = new HashMap<>();
+
+    /**
+     * 测试通过阻塞将ForkJoinPool工作者线程耗尽
+     * 并行度就是可创建工作者线程最大数量
+     */
+    @Test
+    public void testBlockedTask() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(10);
+        int cores = Runtime.getRuntime().availableProcessors();
+        System.out.println(cores);
+        ForkJoinPool pool = new ForkJoinPool();
+        for (int i = 0; i < cores; i++) {   //本机8核，最多可以建8个工作者线程
+        //for (int i = 0; i < cores-1; i++) {
+            pool.submit(() -> {
+                System.out.println("wait in thread: " + Thread.currentThread().getName());
+                try {
+                    latch.await();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+
+        //上面将工作者线程耗尽了，所有工作者线程都在latch.await();
+        //无法处理新提交的任务
+        for (int i = 0; i < 3; i++) {
+            pool.submit(() -> {
+                System.out.println("won't see this message, because no worker to use");
+            });
+        }
+
+        latch.await();
+    }
+
+    /**
+     * 借助 ManagedBlocker 避免上述因为阻塞导致工作者线程被占用耗尽的问题
+     */
+    @Test
+    public void testBlockedTask2() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(10);
+        int cores = Runtime.getRuntime().availableProcessors();
+        System.out.println(cores);
+        ForkJoinPool pool = new ForkJoinPool();
+        for (int i = 0; i < cores; i++) {   //本机8核，最多可以建8个工作者线程
+            pool.submit(() -> {
+                System.out.println("wait in thread: " + Thread.currentThread().getName());
+                try {
+                    //latch.await();
+                    //这里将阻塞条件封装到 ManagedBlocker 防止因工作者线程被耗尽导致后续任务无法处理
+                    //参考自 CompletableFuture 的封装
+                    ForkJoinPool.managedBlock(new ForkJoinPool.ManagedBlocker() {
+                        //Returns:
+                        //true if no additional blocking is necessary (i.e., if isReleasable would return true)
+                        @Override
+                        public boolean block() throws InterruptedException {
+                            latch.await();
+                            return isReleasable();
+                        }
+
+                        @Override
+                        public boolean isReleasable() { //任务是否可释放
+                            long count = latch.getCount();
+                            return count <= 0;
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+
+        //对比 testBlockedTask, 上面虽然将并行度设置的工作者线程耗尽了
+        //但是因为 ForkJoinPool.managedBlock() 内部会检测当所有工作者线程都被阻塞时会突破并行度的限制创建新的工作者线程
+        //所以下面提交的任务会被新创建的工作者线程处理
+        for (int i = 0; i < 3; i++) {
+            pool.submit(() -> {
+                System.out.println("will see this message, because ForkJoinPool.managedBlock() create new worker to handle this task");
+            });
+        }
+
+        latch.await();
+    }
+
+    @Test
+    public void testSumTask2() throws ExecutionException, InterruptedException {
+        SumTask2 task = new SumTask2(1, 200);
+        ForkJoinPool pool = new ForkJoinPool();
+        Future<Integer> sum = pool.submit(task);
+        System.out.println(sum.get());
+    }
+    static class SumTask2 extends RecursiveTask<Integer> {
+
+        private final int low;
+        private final int high;
+
+        public SumTask2(int low, int high) {
+            if (low > high) {
+                throw new RuntimeException("high need not little than low");
+            }
+            this.low = low;
+            this.high = high;
+        }
+
+        @Override
+        protected Integer compute() {
+            if (high - low > 1) {
+                int mid = low + (high - low) / 2;
+                SumTask2 t1 = new SumTask2(low, mid);
+                SumTask2 t2 = new SumTask2(mid+1, high);
+                //return t1.compute() + t2.compute();   //这个方法是直接递归调用不会用多个线程处理
+                ForkJoinTask<Integer> f1 = t1.fork();
+                ForkJoinTask<Integer> f2 = t2.fork();
+                return f1.join() + f2.join();
+                //return f1.get() + f2.get(); //or
+            } else {
+                System.out.println("calc sub task in thread: " + Thread.currentThread().getName());
+                if (high - low == 1) {
+                    return low + high;
+                } else {
+                    return low;
+                }
+            }
+        }
+    }
+
+    /**
+     * 并行度取反的用意（其实是预留）
+     * long np = (long)(-parallelism);
+     * this.ctl = ((np << AC_SHIFT) & AC_MASK) | ((np << TC_SHIFT) & TC_MASK);
+     * 即 this.ctl = ((np << 48) & 0xffffL << 48) | ((np << 32) & 0xffffL << 32);
+     * 比如核心数8, commonPool parallelism=8-1=7, ctl = fff9fff900000000, 初始为负数
+     * 结合后面 tryAddWorker() 的条件，如果没有空闲的工作者线程且ctl索引为47的位不为0才可以创建线程，
+     * 以commonPool为例将并行度取反即 fff9，每次新建线程TC加“1”，加“7”之后索引为47的位将变为0，将不能创建新线程，推理可以创建7个工作者线程
+     */
+    @Test
+    public void testParallelism() {
+        int base = 0xfffffff9;  //0xfffffff9 --(-1)--> 0xfffffff8 --(取反)--> 0x00000007 --(加负号)--> -7
+        System.out.println(base);
+        System.out.println(base + 1);   //0xfffffff9 + 1 = 0xfffffffa ----> -6
+        System.out.println(base + 7);   //0xfffffff9 + 7 = 0x00000000, 即符号位由1变为0
+    }
+
     @Test
     public void testDoJoin() throws ExecutionException, InterruptedException {
         SumTask task = new SumTask(1, 100);

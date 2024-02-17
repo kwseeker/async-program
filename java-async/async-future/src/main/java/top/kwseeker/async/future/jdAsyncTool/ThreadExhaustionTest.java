@@ -9,17 +9,14 @@ import java.util.concurrent.*;
  * 看jd asyncTool 提交多个并行后置任务时，前置依赖任务会同步阻塞等待后置任务执行完毕
  * 使用有边界的线程池容易造成线程耗尽问题
  * 但是使用CompletableFuture默认的ForkJoinPool则不会出现线程耗尽问题，这里写个测试研究源码
- * 其实是因为 new ForkJoinPool(2) 中的2只是并行度，不是可以创建工作者线程的最大数量，实际可以创建很多工作者线程
- * 那么并行度和可创建线程数量有什么关系？
  */
 public class ThreadExhaustionTest {
 
     static final ExecutorService fixedPool = Executors.newFixedThreadPool(2);
-    static final ExecutorService forkJoinPool = new ForkJoinPool(2);
+    static final ExecutorService forkJoinPool = new ForkJoinPool();
+    static final ExecutorService forkJoinPool2 = new ForkJoinPool(2);
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        //testForkJoinPoolMaxThreads();
-
         Task c1 = new Task("c1");
         Task c2 = new Task("c2");
         Task c3 = new Task("c3");
@@ -35,20 +32,25 @@ public class ThreadExhaustionTest {
         testForkJoinPool(a);
     }
 
+    //public static void main(String[] args) throws ExecutionException, InterruptedException {
+    //    testForkJoinPoolMaxThreads();
+    //}
+
     public static void testFixedPool(Task head) throws ExecutionException, InterruptedException {
         CompletableFuture<Void> future = CompletableFuture.runAsync(() -> head.work(fixedPool));
         future.get();
     }
 
+    /**
+     * new ForkJoinPool(2) 理论上可以创建两个工作者线程，
+     * 这里的任务执行过程中会往线程池提交新任务，并阻塞等待新任务执行完毕，按说2个工作者线程会被前面的任务占尽
+     * 但是测试发现实际创建了4个工作者线程处理任务，原因？
+     */
     public static void testForkJoinPool(Task head) throws ExecutionException, InterruptedException {
-        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> head.work(forkJoinPool), forkJoinPool);
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> head.work(forkJoinPool2), forkJoinPool2);
         future.get();
     }
 
-    /**
-     * 测试ForkJoinPool(2)可以创建的最大线程数量
-     * 可以创建很多工作者线程，这里可以一直创建直到可用内存耗尽
-     */
     public static void testForkJoinPoolMaxThreads() throws ExecutionException, InterruptedException {
         RecursiveTask task = new RecursiveTask(1);
         CompletableFuture<Void> future = CompletableFuture.runAsync(() -> task.work(forkJoinPool), forkJoinPool);
@@ -80,6 +82,7 @@ public class ThreadExhaustionTest {
                     //等待所有后置依赖任务执行完毕
                     //CompletableFuture.allOf(futures).get(3000, TimeUnit.MILLISECONDS);
                     CompletableFuture.allOf(futures).get();
+                    System.out.println("task: " + id + " done");
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -114,7 +117,9 @@ public class ThreadExhaustionTest {
         @Override
         public void work(Executor executor) {
             int id = Integer.parseInt(getId());
-            if (id < 1000000) {
+            if (id < 10) {
+            //if (id < 32768 - 10) {
+            //if (id < 32768 + 10) {
                 addTask(new RecursiveTask(id+1));
             }
             super.work(executor);

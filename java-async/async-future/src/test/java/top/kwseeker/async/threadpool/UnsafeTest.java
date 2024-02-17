@@ -1,9 +1,11 @@
 package top.kwseeker.async.threadpool;
 
 import lombok.Data;
+import lombok.ToString;
 import org.junit.Test;
 import sun.misc.Unsafe;
 
+import javax.xml.namespace.QName;
 import java.lang.reflect.Field;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
@@ -24,6 +26,20 @@ public class UnsafeTest {
         } catch (Exception e) {
             throw new Error();
         }
+    }
+
+    /**
+     * 是putObjectVolatile(Object, long, Object)方法的一个版本，它不保证对其他线程的存储立即可见。
+     * 通常，此方法只在底层字段是Java中的volatile字段（或者如果是数组单元，则仅使用volatile访问的单元）时才有用。
+     */
+    @Test
+    public void testUnsafePutOrderedObject() throws NoSuchFieldException {
+        User user = new User();
+        long QNAME = UNSAFE.objectFieldOffset(User.class.getDeclaredField("name"));
+        long QAGE = UNSAFE.objectFieldOffset(User.class.getDeclaredField("age"));
+        UNSAFE.putOrderedObject(user, QNAME, "Arvin");
+        UNSAFE.putOrderedObject(user, QAGE, 18);
+        System.out.println(user);
     }
 
     /**
@@ -110,6 +126,7 @@ public class UnsafeTest {
 
 
     @Data
+    @ToString
     static class User {
         private String name;
         //private int age;
