@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2023-10-10T07:26:32.216Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="BJ9YQPA066kTXKlA-XbX" version="21.7.5" type="device">
+<mxfile host="Electron" modified="2023-09-22T10:26:01.952Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="cT034RYxRPKNqLh8jVDp" version="21.6.5" type="device">
   <diagram name="第 1 页" id="0NwcDRs000kfrG-1apiR">
-    <mxGraphModel dx="3435" dy="727" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="4871" dy="1465" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1110,16 +1110,16 @@
         <mxCell id="u_z_PSljN5TfgaHLhyht-88" value="FilteringWebHandler" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="2835" y="2640" width="130" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="u_z_PSljN5TfgaHLhyht-92" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" parent="1" source="u_z_PSljN5TfgaHLhyht-89" target="u_z_PSljN5TfgaHLhyht-91" edge="1">
+        <mxCell id="u_z_PSljN5TfgaHLhyht-92" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="u_z_PSljN5TfgaHLhyht-89" target="u_z_PSljN5TfgaHLhyht-91" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="u_z_PSljN5TfgaHLhyht-95" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="1" source="u_z_PSljN5TfgaHLhyht-89" target="u_z_PSljN5TfgaHLhyht-93" edge="1">
+        <mxCell id="u_z_PSljN5TfgaHLhyht-95" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="u_z_PSljN5TfgaHLhyht-89" target="u_z_PSljN5TfgaHLhyht-93" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="u_z_PSljN5TfgaHLhyht-89" value="&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;div&gt;return Mono.&lt;b&gt;defer&lt;/b&gt;(() -&amp;gt;&lt;/div&gt;&lt;div&gt;this.currentFilter != null &amp;amp;&amp;amp; this.chain != null ?&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &lt;b&gt;invokeFilter&lt;/b&gt;(this.currentFilter, this.chain, exchange) :&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; this.handler.&lt;b&gt;handle&lt;/b&gt;(exchange));&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#007fff&quot;&gt;过滤器不为空就执行过滤器逻辑，否则直接执行请求处理&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=left;arcSize=15;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
           <mxGeometry x="3040" y="2670" width="240" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="u_z_PSljN5TfgaHLhyht-91" value="&lt;div style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;依次执行过滤器逻辑&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font style=&quot;border-color: var(--border-color);&quot; color=&quot;#007fff&quot;&gt;过滤器都执行完最后执行WebHandler(即handler)&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;arcSize=8;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="u_z_PSljN5TfgaHLhyht-91" value="&lt;div style=&quot;font-size: 9px;&quot;&gt;执行过滤器逻辑&lt;/div&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;过滤器最后一个节点是handler&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;align=center;arcSize=8;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="3338.75" y="2670" width="200.75" height="60" as="geometry" />
         </mxCell>
         <mxCell id="u_z_PSljN5TfgaHLhyht-105" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="1" source="u_z_PSljN5TfgaHLhyht-93" target="u_z_PSljN5TfgaHLhyht-104" edge="1">
